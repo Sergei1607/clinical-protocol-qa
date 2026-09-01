@@ -101,10 +101,12 @@ Frontend and the FastAPI app itself come later — too early now.
 2b. **Chunking** — recover Synopsis + Section 3 tables (pdfplumber), split long
    sections, merge tiny ones, emit `data/extracted/chunks.json`. ✅ done
    (`backend/recover_tables.py`, `backend/build_chunks.py`)
-3. **Embed + store** — pick embedding model, embed `chunks.json`, load into
-   Supabase pgvector, build a similarity-search query. ← *current step*
+3. **Embed + store** — BAAI/bge-small-en-v1.5 (384-dim), embed `chunks.json`,
+   load into Supabase `protocol_chunks` (pgvector), validate retrieval by hand.
+   ✅ done (`setup_supabase.py`, `load_embeddings.py`, `test_retrieval.py`)
 4. **Retrieval + answer endpoint** — FastAPI `/ask` endpoint: embed question →
    top-k retrieve → Claude with grounding prompt → answer + section citation.
+   ← *current step*
 5. **Frontend** — chat UI (reuse Project 2 pattern): question box, answer view,
    visible citation, link/expand to the cited chunk.
 6. **Deploy** — Render (backend) + Vercel (frontend); verify the *live* app
@@ -130,9 +132,26 @@ Pipeline (all in `backend/`, run in order):
   219 chunks from 148 retrievable sections (28 sections split into 99 sub-chunks;
   11 tiny sections merged into parents; §11 REFERENCES excluded as
   `non-qa-content`). char_count p25/median/p75 = 631 / 1042 / 1448.
+- `setup_supabase.py` → `protocol_chunks` table (pgvector, HNSW cosine index) in
+  the Project 2 Supabase project; `app_readonly` granted SELECT on it.
+- `load_embeddings.py` → embeds all 219 chunks with **BAAI/bge-small-en-v1.5**
+  (384-dim, CPU, ~8s to embed + ~7s to upsert) and idempotently upserts rows.
+- `test_retrieval.py` → 6 hand questions, cosine query via `app_readonly`.
+
+bge convention: query text is prefixed with
+`"Represent this sentence for searching relevant passages: "`; **chunk/passage
+text is not**. Torch is CPU-only (`torch==2.14.0+cpu`, `--extra-index-url` in
+requirements.txt) — no GPU locally or on Render.
+
+DB access: `backend/.env` (gitignored) holds `SUPABASE_OWNER_URL` (local only,
+DDL + writes) and `SUPABASE_READONLY_URL` (`app_readonly`, what the API will use).
+See `backend/.env.example`.
 
 Decisions locked in: §11 excluded; 6.1/6.6.1/8.4.1/10.2/9.3 stay excluded (no
 salvage); 1.1 + 3 recovered via pdfplumber and back in the corpus.
 
-**Next: embeddings** — embed `chunks.json` with a local sentence-transformers
-model, load into Supabase pgvector.
+**Next: FastAPI `/ask` endpoint** — embed question → top-k retrieve → Claude with
+a grounding prompt → answer + section citation. Retrieval quality note: bge-small
+scores are compressed (~0.65–0.86); Q3/Q6 nail it, Q1/Q2 (paraphrased questions)
+put the right section in the top-5 but not #1 — plan for top-k 5–8 and let Claude
+synthesise; consider bge-base if that isn't enough.
