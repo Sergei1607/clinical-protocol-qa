@@ -59,12 +59,11 @@ Downloaded to `data/raw/` by the pipeline (gitignored — re-downloadable).
 - **Windows 11, working natively** — confirmed across Projects 1 & 2 that
   Node / Python / git all run fine natively; no WSL2 needed. Vercel and Render
   build in their own Linux containers regardless.
-- Python: currently only **3.14** is installed on this machine
-  (`C:\Users\serge\AppData\Local\Programs\Python\Python314`). ⚠️ Watch for wheel
-  availability — `torch` / `sentence-transformers` may not yet ship 3.14 wheels.
-  If the embeddings step hits install failures, the fix is to install Python
-  3.11 or 3.12 alongside and point the backend venv at it. (Not a problem for
-  PDF extraction — PyMuPDF has 3.14 wheels.)
+- Python: **`backend/.venv` runs Python 3.12.10** (`py -3.12`, installed via
+  `winget install Python.Python.3.12 --scope user`). Switched from 3.14 up front
+  because `torch` / `sentence-transformers` (needed for the embeddings step) do
+  not ship 3.14 wheels yet and would fail to build from source. 3.14 is still the
+  machine default (`py -3.14`); use `py -3.12` for anything in this repo.
 - Shell: PowerShell primary.
 
 ## How to work with me
@@ -95,10 +94,11 @@ Frontend and the FastAPI app itself come later — too early now.
 ## Build order (this project)
 1. **Scaffold** — repo, .gitignore, README stub, this file, folder structure,
    backend venv, PDF download + full-text extraction script. Eyeball extraction
-   quality. ← *current step*
-2. **Chunking strategy** — design section-boundary chunking against the real
-   extracted text; handle protocol quirks (running headers/footers, TOC,
-   inconsistent section numbering, flattened tables).
+   quality. ✅ done
+2. **Chunking strategy** — clean the extracted text, detect section boundaries,
+   parse the TOC into a section→page map, flag CCI redactions, exclude flattened
+   tables, emit `data/extracted/sections.json` (leaf sections + metadata).
+   Sub-chunking of long sections is a *later* step. ← *current step*
 3. **Embed + store** — pick embedding model, embed chunks, load into Supabase
    pgvector, build a similarity-search query.
 4. **Retrieval + answer endpoint** — FastAPI `/ask` endpoint: embed question →
@@ -116,5 +116,6 @@ retrieved chunks with visible section citations, chunking done on real section
 boundaries, README with live link.
 
 ## Current status
-Just started. Repo scaffolded; PDF download + extraction pipeline in place and
-run once. Chunking strategy **not yet designed** — that's next session.
+Repo scaffolded; PDF extracted (166 pages). Backend venv switched to Python
+3.12. Section-parsing pass in progress — cleaning + boundary detection +
+`sections.json`. Long-section sub-chunking and embeddings still to come.

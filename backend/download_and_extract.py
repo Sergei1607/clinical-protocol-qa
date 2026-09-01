@@ -18,7 +18,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-import fitz  # PyMuPDF
+import pymupdf  # PyMuPDF (the old top-level name `fitz` is deprecated)
 import requests
 
 PDF_URL = "https://cdn.clinicaltrials.gov/large-docs/50/NCT04195750/Prot_000.pdf"
@@ -57,7 +57,7 @@ def download_pdf(url: str, dest: Path) -> None:
 
 def extract_text(pdf_path: Path) -> list[str]:
     """Return a list of per-page text strings, in document order."""
-    doc = fitz.open(pdf_path)
+    doc = pymupdf.open(pdf_path)
     pages = [page.get_text("text") for page in doc]
     doc.close()
     return pages
