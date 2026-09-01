@@ -104,11 +104,11 @@ Frontend and the FastAPI app itself come later — too early now.
 3. **Embed + store** — BAAI/bge-small-en-v1.5 (384-dim), embed `chunks.json`,
    load into Supabase `protocol_chunks` (pgvector), validate retrieval by hand.
    ✅ done (`setup_supabase.py`, `load_embeddings.py`, `test_retrieval.py`)
-4. **Retrieval + answer endpoint** — FastAPI `/ask` endpoint: embed question →
-   top-k retrieve → Claude with grounding prompt → answer + section citation.
-   ← *current step*
+4. **Retrieval + answer endpoint** — FastAPI `POST /ask`: embed question → top-k
+   (k=8) retrieve → single grounded Claude call → answer + parsed citations.
+   ✅ done (`backend/rag.py`, `backend/main.py`, `backend/test_ask.py`)
 5. **Frontend** — chat UI (reuse Project 2 pattern): question box, answer view,
-   visible citation, link/expand to the cited chunk.
+   visible citation, link/expand to the cited chunk. ← *current step*
 6. **Deploy** — Render (backend) + Vercel (frontend); verify the *live* app
    works, not just that the deploy succeeded. Note Supabase pause behavior.
 7. **README** — what it does, stack, live link, RAG design notes, what I'd
@@ -143,15 +143,26 @@ bge convention: query text is prefixed with
 text is not**. Torch is CPU-only (`torch==2.14.0+cpu`, `--extra-index-url` in
 requirements.txt) — no GPU locally or on Render.
 
+- `rag.py` -> `answer_question(q, k=8)`: embed query -> pgvector top-k via
+  `app_readonly` -> **one** `client.messages.create` (no tool loop) -> parse the
+  `SOURCES:` block. `main.py` -> FastAPI `POST /ask` + `GET /health`, model warmed
+  at startup, open CORS, **no auth** (portfolio-demo call, note for README).
+  `test_ask.py` -> 10 questions (6 original + 4 rephrasings).
+- Answer model: **`claude-sonnet-5`** (env `ANSWER_MODEL` overrides). Sonnet not
+  Opus because of the zero-budget constraint; grounded extraction is in range.
+  ~$0.01-0.015/question. Citation format Claude must emit: `SOURCES:` then one
+  `- §<num> | <title> | p.<start>-<end>` line per section actually used.
+
 DB access: `backend/.env` (gitignored) holds `SUPABASE_OWNER_URL` (local only,
-DDL + writes) and `SUPABASE_READONLY_URL` (`app_readonly`, what the API will use).
-See `backend/.env.example`.
+DDL + writes), `SUPABASE_READONLY_URL` (`app_readonly`, the API path), and
+`ANTHROPIC_API_KEY`. See `backend/.env.example`.
 
 Decisions locked in: §11 excluded; 6.1/6.6.1/8.4.1/10.2/9.3 stay excluded (no
 salvage); 1.1 + 3 recovered via pdfplumber and back in the corpus.
 
-**Next: FastAPI `/ask` endpoint** — embed question → top-k retrieve → Claude with
-a grounding prompt → answer + section citation. Retrieval quality note: bge-small
-scores are compressed (~0.65–0.86); Q3/Q6 nail it, Q1/Q2 (paraphrased questions)
-put the right section in the top-5 but not #1 — plan for top-k 5–8 and let Claude
-synthesise; consider bge-base if that isn't enough.
+**Next: React frontend.** `/ask` validated on 10 questions — grounding/honesty is
+solid (redaction -> "redacted"; excluded SoA -> "not in the excerpts, here's what
+is"; retrieval miss -> "can't answer from these"). Claude's synthesis across k=8
+covers imperfect ranking. Known: retrieval is phrasing-sensitive — specific
+wording finds the exclusion criterion, vague wording doesn't, but the bot says
+so. Consider bge-base / sibling-sub-chunk fetch / hybrid keyword search later.
