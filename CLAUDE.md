@@ -95,10 +95,11 @@ Frontend and the FastAPI app itself come later — too early now.
 1. **Scaffold** — repo, .gitignore, README stub, this file, folder structure,
    backend venv, PDF download + full-text extraction script. Eyeball extraction
    quality. ✅ done
-2. **Chunking strategy** — clean the extracted text, detect section boundaries,
-   parse the TOC into a section→page map, flag CCI redactions, exclude flattened
-   tables, emit `data/extracted/sections.json` (leaf sections + metadata).
-   Sub-chunking of long sections is a *later* step. ← *current step*
+2. **Section parsing** — clean text, detect section boundaries, parse TOC to a
+   section→page map, flag CCI redactions, exclude flattened tables, emit
+   `data/extracted/sections.json`. ✅ done (`backend/parse_sections.py`)
+2b. **Chunking policy** — split long leaf sections into sub-chunks, merge tiny
+   ones, resolve the open judgment calls. ← *current step*
 3. **Embed + store** — pick embedding model, embed chunks, load into Supabase
    pgvector, build a similarity-search query.
 4. **Retrieval + answer endpoint** — FastAPI `/ask` endpoint: embed question →
@@ -116,6 +117,11 @@ retrieved chunks with visible section citations, chunking done on real section
 boundaries, README with live link.
 
 ## Current status
-Repo scaffolded; PDF extracted (166 pages). Backend venv switched to Python
-3.12. Section-parsing pass in progress — cleaning + boundary detection +
-`sections.json`. Long-section sub-chunking and embeddings still to come.
+Repo scaffolded; PDF extracted (166 pages); backend venv on Python 3.12.
+`backend/parse_sections.py` cleans the text, parses the TOC, detects section
+boundaries, and writes `data/extracted/sections.json` — 171 records (150 leaf +
+21 section-preambles), 155 retrievable, 16 excluded (2 redacted, 14 flattened
+tables), 19 partially redacted. **Next: decide the long-section sub-chunking /
+short-section merge policy together, then embeddings.** Open judgment calls
+noted at the end of the parse report (References, Synopsis/Section 3, mixed
+prose+table sections, Section 9.3).
