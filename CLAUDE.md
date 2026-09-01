@@ -98,10 +98,11 @@ Frontend and the FastAPI app itself come later — too early now.
 2. **Section parsing** — clean text, detect section boundaries, parse TOC to a
    section→page map, flag CCI redactions, exclude flattened tables, emit
    `data/extracted/sections.json`. ✅ done (`backend/parse_sections.py`)
-2b. **Chunking policy** — split long leaf sections into sub-chunks, merge tiny
-   ones, resolve the open judgment calls. ← *current step*
-3. **Embed + store** — pick embedding model, embed chunks, load into Supabase
-   pgvector, build a similarity-search query.
+2b. **Chunking** — recover Synopsis + Section 3 tables (pdfplumber), split long
+   sections, merge tiny ones, emit `data/extracted/chunks.json`. ✅ done
+   (`backend/recover_tables.py`, `backend/build_chunks.py`)
+3. **Embed + store** — pick embedding model, embed `chunks.json`, load into
+   Supabase pgvector, build a similarity-search query. ← *current step*
 4. **Retrieval + answer endpoint** — FastAPI `/ask` endpoint: embed question →
    top-k retrieve → Claude with grounding prompt → answer + section citation.
 5. **Frontend** — chat UI (reuse Project 2 pattern): question box, answer view,
@@ -118,10 +119,20 @@ boundaries, README with live link.
 
 ## Current status
 Repo scaffolded; PDF extracted (166 pages); backend venv on Python 3.12.
-`backend/parse_sections.py` cleans the text, parses the TOC, detects section
-boundaries, and writes `data/extracted/sections.json` — 171 records (150 leaf +
-21 section-preambles), 155 retrievable, 16 excluded (2 redacted, 14 flattened
-tables), 19 partially redacted. **Next: decide the long-section sub-chunking /
-short-section merge policy together, then embeddings.** Open judgment calls
-noted at the end of the parse report (References, Synopsis/Section 3, mixed
-prose+table sections, Section 9.3).
+
+Pipeline (all in `backend/`, run in order):
+- `download_and_extract.py` → `data/extracted/protocol_text.txt`
+- `parse_sections.py` → `data/extracted/sections.json` (source-of-truth section
+  records; 171 records, NOT modified by later steps)
+- `recover_tables.py` → `data/extracted/recovered_sections.json` (pdfplumber
+  re-extraction of 1.1 Synopsis + 3 Objectives/Endpoints — both recovered clean)
+- `build_chunks.py` → `data/extracted/chunks.json` — **the retrieval chunk set**:
+  219 chunks from 148 retrievable sections (28 sections split into 99 sub-chunks;
+  11 tiny sections merged into parents; §11 REFERENCES excluded as
+  `non-qa-content`). char_count p25/median/p75 = 631 / 1042 / 1448.
+
+Decisions locked in: §11 excluded; 6.1/6.6.1/8.4.1/10.2/9.3 stay excluded (no
+salvage); 1.1 + 3 recovered via pdfplumber and back in the corpus.
+
+**Next: embeddings** — embed `chunks.json` with a local sentence-transformers
+model, load into Supabase pgvector.
