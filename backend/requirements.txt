@@ -1,0 +1,9 @@
+# --- PDF extraction pipeline (step 1) ---
+pymupdf==1.28.2       # aka "fitz" — fast text + layout extraction from the protocol PDF (abi3 wheel; works on Python 3.14)
+requests==2.32.3      # download the source PDF from clinicaltrials.gov
+
+# --- added in later steps ---
+# fastapi, uvicorn            (step 4: API)
+# sentence-transformers, torch (step 3: local embeddings)
+# supabase / psycopg          (step 3: pgvector store)
+# anthropic                   (step 4: Claude API)
