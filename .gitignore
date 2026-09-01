@@ -1,0 +1,42 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.python-version
+
+# ---- Environment / secrets ----
+.env
+.env.*
+!.env.example
+
+# ---- Node / frontend ----
+node_modules/
+dist/
+dist-ssr/
+.vite/
+*.local
+.vercel
+
+# ---- Editor / OS ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ---- Project data ----
+# Source PDF is large (~162 pages) and re-downloadable from clinicaltrials.gov;
+# keep it out of git. The download script recreates it. Keep the folder itself.
+data/raw/*
+!data/raw/.gitkeep
+# Extracted text is a build artifact of the pipeline; regenerate, don't commit.
+data/extracted/*
+!data/extracted/.gitkeep
