@@ -48,6 +48,19 @@ export function Sources({ sources }: { sources: Source[] }) {
               <span className="text-slate-400">· {pageLabel(s)}</span>
             </div>
 
+            {s.contains_redaction_marker && (
+              <div className="mt-1.5 flex items-start gap-1.5 rounded-md bg-amber-50 px-2 py-1.5 text-xs text-amber-900 ring-1 ring-amber-200">
+                <svg className="mt-0.5 h-3.5 w-3.5 shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
+                  <path d="M8 1.5 15 14H1L8 1.5Zm0 4.25a.75.75 0 0 0-.75.75v3a.75.75 0 0 0 1.5 0v-3A.75.75 0 0 0 8 5.75Zm0 6.75a.9.9 0 1 0 0-1.8.9.9 0 0 0 0 1.8Z" />
+                </svg>
+                <span>
+                  <span className="font-semibold">Part of this section is redacted.</span> The sponsor
+                  removed this text as commercially confidential; it appears as a marker in the
+                  excerpt.
+                </span>
+              </div>
+            )}
+
             {open &&
               (s.excerpt_text ? (
                 <blockquote className="mt-2 border-l-2 border-accent-soft bg-slate-50 py-2 pr-2 pl-3">
