@@ -54,7 +54,11 @@ visit-by-visit table - is deliberately not in the retrieval set.)
 
 4. Be concise and factual. Quote or closely paraphrase the chunk wording. Do not pad.
 
-5. End EVERY response with a source list in exactly this format - a line reading SOURCES: \
+5. When a retrieved excerpt lists several distinct methods, criteria, steps, or facts that \
+bear on the question, include all of them, not only the most prominent one. Completeness \
+matters more than brevity when the excerpt itself enumerates multiple relevant items.
+
+6. End EVERY response with a source list in exactly this format - a line reading SOURCES: \
 on its own, then one line per section you actually drew on (not every chunk you were \
 given):
 

@@ -27,8 +27,11 @@ sys.path.insert(0, str(ROOT / "backend"))
 import rag  # noqa: E402
 
 EVAL_SET = Path(__file__).resolve().parent / "eval_set.json"
-RESULTS_JSON = Path(__file__).resolve().parent / "results.json"
-RESULTS_MD = Path(__file__).resolve().parent / "results.md"
+# optional run label: `python run_eval.py v2` -> results_v2.json / results_v2.md,
+# so a re-run after a prompt change doesn't clobber the baseline.
+_TAG = f"_{sys.argv[1]}" if len(sys.argv) > 1 else ""
+RESULTS_JSON = Path(__file__).resolve().parent / f"results{_TAG}.json"
+RESULTS_MD = Path(__file__).resolve().parent / f"results{_TAG}.md"
 
 # Judge model: tried claude-haiku-4-5 first (rubric grading is simpler than the
 # generation call). On a first run Haiku got 17/18 judgments right but missed the

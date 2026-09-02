@@ -108,8 +108,11 @@ Frontend and the FastAPI app itself come later — too early now.
    (k=8) retrieve → single grounded Claude call → answer + parsed citations.
    ✅ done (`backend/rag.py`, `backend/main.py`, `backend/test_ask.py`)
 4b. **Eval harness** — `eval/eval_set.json` (18 Qs) + `eval/run_eval.py`: per-Q
-   retrieval recall + LLM-judge (Sonnet) → `eval/results.{json,md}`. ✅ done
-   (baseline: 17/18 pass, 1 borderline, 100% section-level retrieval recall)
+   retrieval recall + LLM-judge (Sonnet) → `eval/results{,_v2}.{json,md}`. ✅ done.
+   v1 baseline: 17/18 pass, 1 borderline (q12). v2 (after a generic "include all
+   enumerated items" completeness nudge in rag.py): **18/18 pass, no regressions**,
+   ~+22% output tokens (concentrated on q13, which now dumps the full IMDC
+   definition). Kept.
 5. **Frontend** — chat UI (reuse Project 2 pattern): question box, answer view,
    visible citation, link/expand to the cited chunk. ← *current step*
 6. **Deploy** — Render (backend) + Vercel (frontend); verify the *live* app
@@ -162,12 +165,18 @@ DDL + writes), `SUPABASE_READONLY_URL` (`app_readonly`, the API path), and
 
 - `eval/` — reusable harness. `eval_set.json`: 18 Qs (10 from test_ask + 8 new)
   each with expected_sections / expected_behavior / expected_keyfacts.
-  `run_eval.py`: programmatic retrieval-recall + Sonnet LLM-judge →
-  `results.{json,md}`. Baseline run: **17/18 judge pass, 1 borderline (q12 —
-  answer omitted the Kaplan-Meier keyfact), 0 fail; retrieval recall 14/14
-  (section granularity — q10's §5.2 hit was the wrong sub-chunk, bot correctly
-  deferred)**. Judge switched Haiku→Sonnet (Haiku ignored the `also_acceptable`
-  rule on q10). ~$0.22/run.
+  `run_eval.py [tag]`: programmatic retrieval-recall + Sonnet LLM-judge →
+  `results[_tag].{json,md}`. Judge is Sonnet (Haiku ignored `also_acceptable` on
+  q10). ~$0.22/run.
+  - **v1** (`results.{json,md}`): 17/18 pass, 1 borderline (q12 — dropped the
+    Kaplan-Meier keyfact), 0 fail; retrieval recall 14/14 section-level (q10's
+    §5.2 hit was the wrong sub-chunk; bot correctly deferred).
+  - **v2** (`results_v2.{json,md}`): after rule 5 was added to `SYSTEM_PROMPT` —
+    a generic "when an excerpt enumerates multiple relevant items, include all of
+    them" nudge — **18/18 pass, zero verdict/grounding regressions**. Also lifted
+    q14/q03 keyfact coverage. Cost: ~+22% output tokens; q13 now appends the full
+    IMDC risk-factor definition (accurate, but more than asked). Net-positive, so
+    kept. If frontend UX shows verbosity is a problem, rebalance rules 4 vs 5.
 
 Decisions locked in: §11 excluded; 6.1/6.6.1/8.4.1/10.2/9.3 stay excluded (no
 salvage); 1.1 + 3 recovered via pdfplumber and back in the corpus. Eval failures
