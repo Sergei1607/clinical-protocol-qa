@@ -9,10 +9,12 @@ in Projects 1 & 2 (note this in the README). No conversation history yet - singl
 question in, single answer out.
 
 Run locally:  uvicorn main:app --reload   (from backend/)
+Run in prod:  python main.py              (honours $PORT; Render sets it)
 """
 
 from __future__ import annotations
 
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -30,11 +32,15 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Clinical Protocol Q&A", lifespan=lifespan)
 
-# Frontend (Vercel) will call this cross-origin; wide-open CORS is fine for a
-# public read-only demo. Tighten to the deployed frontend origin later.
+# The frontend (Vercel) calls this cross-origin. Default is wide-open, which is
+# acceptable for a public read-only demo with no auth and no cookies. Once the
+# Vercel URL exists, set ALLOWED_ORIGIN in the Render dashboard to lock it down -
+# comma-separated for more than one - and restart. No code change needed.
+#   ALLOWED_ORIGIN=https://clinical-protocol-qa.vercel.app
+_allowed = [o.strip() for o in os.environ.get("ALLOWED_ORIGIN", "").split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=_allowed or ["*"],
     allow_methods=["POST", "GET"],
     allow_headers=["*"],
 )
@@ -53,3 +59,12 @@ def health() -> dict:
 @app.post("/ask")
 def ask(req: AskRequest) -> dict:
     return rag.answer_question(req.question, req.k)
+
+
+if __name__ == "__main__":
+    # Render (and most PaaS) assign the port at runtime via $PORT. Bind 0.0.0.0
+    # so the container is reachable. No --reload in prod. Pass the app object
+    # directly so the module isn't re-imported.
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", "8000")))

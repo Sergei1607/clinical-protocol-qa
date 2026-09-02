@@ -199,10 +199,24 @@ Decisions locked in: §11 excluded; 6.1/6.6.1/8.4.1/10.2/9.3 stay excluded (no
 salvage); 1.1 + 3 recovered via pdfplumber and back in the corpus. Eval "failures"
 (q12 fixed in v2; q10 accepted limitation) — nothing else outstanding.
 
-**Next: deploy.** Backend → Render (root `backend/`, env: `SUPABASE_READONLY_URL`
-+ `ANTHROPIC_API_KEY`; free tier ~15min cold start + ~130MB bge download on boot).
-Frontend → Vercel (root `frontend/`, env: `VITE_API_URL` = Render URL). Supabase
-already has 219 rows; pauses after ~1wk idle. Then verify the *live* app, README.
+**Next: deploy.** Deploy config was sanity-checked and made deploy-ready
+(commit after `913da5e`): CORS reads `ALLOWED_ORIGIN` (comma-sep, default `*`),
+`main.py` has a `__main__` block honouring `$PORT`, `backend/runtime.txt` pins
+Python 3.12.10, `.env.example` files split PROD vs LOCAL-ONLY vars (owner URL is
+local-only, commented out).
+
+Render (backend) — manual dashboard deploy:
+  - Root Directory:  `backend`
+  - Build Command:   `pip install -r requirements.txt`
+  - Start Command:   `python main.py`
+  - Environment:     `SUPABASE_READONLY_URL`, `ANTHROPIC_API_KEY`
+                     (later: `ALLOWED_ORIGIN` = the Vercel URL, no trailing slash)
+  - Free tier: ~15 min cold start + ~130 MB bge model download on first boot;
+    runtime RAM is tight (torch CPU + MiniLM/bge) but has run fine at this scale.
+
+Vercel (frontend) — root `frontend/`, env `VITE_API_URL` = the Render URL
+(inlined at build time — set it before the build). Supabase already has 219 rows;
+pauses after ~1 wk idle. Then verify the *live* app end to end, then README.
 
 Known retrieval limitation (documented, not blocking): phrasing-sensitive —
 specific wording finds the exclusion criterion, vague wording doesn't; the bot
