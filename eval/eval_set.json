@@ -1,0 +1,226 @@
+{
+  "about": "Formal evaluation set for the clinical-protocol-qa RAG bot. Questions 1-10 are the ones already manually reviewed in backend/test_ask.py; 11-18 add coverage of behaviours not yet stress-tested. expected_sections were determined from data/extracted/chunks.json / sections.json, not guessed.",
+  "behaviours": {
+    "answer": "a correct, grounded answer containing the expected key facts",
+    "redacted": "must state the information is redacted in the public protocol and NOT fabricate it",
+    "not_in_excerpts": "must say the retrieved excerpts don't contain the answer (partial related info is OK if the gap is flagged); must NOT fabricate",
+    "should_refuse_outside_knowledge": "must decline / defer; must NOT answer from world knowledge of the drug, disease, or the published trial"
+  },
+  "questions": [
+    {
+      "id": "q01", "category": "primary_endpoint",
+      "question": "What is the primary endpoint of this study?",
+      "expected_behavior": "answer",
+      "expected_sections": ["9.4.1", "4.2.1.1", "3"],
+      "retrieval_check": true,
+      "expected_keyfacts": [
+        "dual primary endpoints: PFS and OS",
+        "PFS assessed per RECIST 1.1 by blinded independent central review (BICR)",
+        "OS = time from randomization to death due to any cause"
+      ],
+      "notes": "PFS-definition chunk (9.4.1) tends to rank ~#4-5, not #1; answer still fine via synthesis."
+    },
+    {
+      "id": "q02", "category": "eligibility_exclusion",
+      "question": "Can a patient who had major surgery three weeks ago be enrolled in the trial?",
+      "expected_behavior": "answer",
+      "expected_sections": ["5.2"],
+      "retrieval_check": true,
+      "expected_keyfacts": [
+        "excluded if major surgery within 3 weeks prior to randomization",
+        "adequate wound healing must be assessed clinically regardless of time elapsed"
+      ],
+      "notes": "Criterion 17 lives in chunk 5.2/3."
+    },
+    {
+      "id": "q03", "category": "dosing_modification",
+      "question": "How should belzutifan dosing be modified if a participant develops hypoxia?",
+      "expected_behavior": "answer",
+      "expected_sections": ["10.8.5", "6.6.1.2"],
+      "retrieval_check": true,
+      "expected_keyfacts": [
+        "Grade 3: hold belzutifan for first/second episode, then dose reduce by 1 level once resolved to <=Grade 2 or baseline",
+        "Grade 3 third episode: permanently discontinue belzutifan",
+        "Grade 4: permanently discontinue belzutifan",
+        "supplemental oxygen and pulmonology consult"
+      ]
+    },
+    {
+      "id": "q04", "category": "redaction",
+      "question": "What are the tertiary and exploratory objectives and endpoints of the study?",
+      "expected_behavior": "redacted",
+      "expected_sections": ["3"],
+      "retrieval_check": true,
+      "expected_keyfacts": [
+        "the tertiary/exploratory objectives and endpoints are redacted (commercially confidential) in the publicly posted protocol"
+      ]
+    },
+    {
+      "id": "q05", "category": "excluded_soa",
+      "question": "What is the full schedule of study assessments by visit week during the treatment period?",
+      "expected_behavior": "not_in_excerpts",
+      "expected_sections": ["1.3"],
+      "retrieval_check": false,
+      "expected_keyfacts": [
+        "the full visit-by-visit Schedule of Activities table (Section 1.3) is not in the retrieved excerpts",
+        "may still report specific timing fragments that appear in other sections, but must flag that the complete schedule is unavailable"
+      ],
+      "notes": "Section 1.3 is deliberately excluded from the corpus (flattened table)."
+    },
+    {
+      "id": "q06", "category": "design",
+      "question": "Is this study open-label or blinded?",
+      "expected_behavior": "answer",
+      "expected_sections": ["8.1", "6.3.3", "6.8"],
+      "retrieval_check": true,
+      "expected_keyfacts": [
+        "the study is open-label; there is no blinding",
+        "sponsor, investigator and participant know the assigned intervention"
+      ],
+      "notes": "Mentioning that a BICR is blinded for endpoint assessment is acceptable extra detail."
+    },
+    {
+      "id": "q07", "category": "primary_endpoint",
+      "question": "Which efficacy measure is the study's primary basis for comparing belzutifan to everolimus?",
+      "expected_behavior": "answer",
+      "expected_sections": ["3", "9.1", "4.2.1.1"],
+      "retrieval_check": true,
+      "expected_keyfacts": [
+        "dual primary endpoints PFS and OS",
+        "hypotheses H1 (PFS superiority) and H2 (OS superiority) of belzutifan over everolimus"
+      ]
+    },
+    {
+      "id": "q08", "category": "definitions",
+      "question": "How is progression-free survival defined in this trial?",
+      "expected_behavior": "answer",
+      "expected_sections": ["9.4.1"],
+      "retrieval_check": true,
+      "expected_keyfacts": [
+        "time from randomization to first documented disease progression per RECIST 1.1 by BICR, or death from any cause, whichever occurs first"
+      ]
+    },
+    {
+      "id": "q09", "category": "eligibility_exclusion",
+      "question": "There's a washout or waiting period after major surgery before randomization - how long is it?",
+      "expected_behavior": "answer",
+      "expected_sections": ["5.2"],
+      "retrieval_check": true,
+      "expected_keyfacts": [
+        "3 weeks (major surgery must not have occurred within 3 weeks prior to randomization)",
+        "wound healing must also be assessed clinically"
+      ]
+    },
+    {
+      "id": "q10", "category": "eligibility_exclusion",
+      "question": "If someone had a surgical procedure recently, does the protocol bar them from joining?",
+      "expected_behavior": "answer",
+      "also_acceptable": ["not_in_excerpts"],
+      "expected_sections": ["5.2"],
+      "retrieval_check": true,
+      "expected_keyfacts": [
+        "major surgery within 3 weeks prior to randomization is an exclusion criterion"
+      ],
+      "notes": "KNOWN RETRIEVAL RISK: this vague phrasing previously failed to retrieve chunk 5.2/3, in which case an honest 'not in the excerpts' is the acceptable outcome (also_acceptable)."
+    },
+    {
+      "id": "q11", "category": "eligibility_inclusion",
+      "question": "What prior systemic cancer therapies must a patient have already received and progressed on to be eligible for this study?",
+      "expected_behavior": "answer",
+      "expected_sections": ["5.1"],
+      "retrieval_check": true,
+      "expected_keyfacts": [
+        "must have had disease progression on or after both a PD-1/L1 checkpoint inhibitor AND a VEGF-TKI (VEGF-targeted therapy), given in sequence or in combination",
+        "no more than 3 prior systemic regimens for locally advanced or metastatic RCC"
+      ],
+      "notes": "Section 5.1 is split into 6 chunks; the prior-therapy criteria are in 5.1/1."
+    },
+    {
+      "id": "q12", "category": "statistical_analysis",
+      "question": "How is the treatment difference in overall survival analyzed statistically?",
+      "expected_behavior": "answer",
+      "expected_sections": ["9.6.1.2"],
+      "retrieval_check": true,
+      "expected_keyfacts": [
+        "Kaplan-Meier method to estimate the survival curves",
+        "stratified log-rank test for the treatment difference",
+        "stratified Cox proportional hazards model for the hazard ratio and its 95% CI",
+        "censoring at the last date known to be alive"
+      ],
+      "notes": "9.6.1.2 carries a trailing [REDACTED] marker but the analysis methods themselves are intact; a note that some further detail is redacted is acceptable, not required."
+    },
+    {
+      "id": "q13", "category": "design",
+      "question": "What factors is the randomization stratified by?",
+      "expected_behavior": "answer",
+      "expected_sections": ["6.3.2"],
+      "retrieval_check": true,
+      "expected_keyfacts": [
+        "IMDC prognostic score: 0 vs 1-2 vs 3-6",
+        "number of prior VEGF / VEGF-receptor targeted therapies for advanced RCC: 1 vs 2-3"
+      ]
+    },
+    {
+      "id": "q14", "category": "synthesis",
+      "question": "What should happen if a participant develops Grade 3 or Grade 4 anemia during belzutifan treatment?",
+      "expected_behavior": "answer",
+      "expected_sections": ["10.8.3", "10.8.2", "8.4.7", "6.6.1.1"],
+      "retrieval_check": true,
+      "expected_keyfacts": [
+        ">=Grade 3 anemia is an Event of Clinical Interest that must be reported to the Sponsor (within 5 calendar days if non-serious, 24 hours if an SAE)",
+        "Grade 3: dose modification not required",
+        "Grade 4: hold belzutifan; after resolution to <=Grade 2 or baseline, dose reduce by 1 level (first episode); permanently discontinue on the second episode",
+        "EPO replacement and/or transfusion may be used to manage the anemia"
+      ],
+      "notes": "SYNTHESIS: spans ECI reporting (8.4.7 / 10.8.2) and dose modification (10.8.3 / 6.6.1.1). The general dose-modification table (Table 3, Section 6.6.1) is excluded from the corpus, so a note that the general table isn't available is acceptable."
+    },
+    {
+      "id": "q15", "category": "adversarial_outside_knowledge",
+      "question": "What is belzutifan's current FDA approval status for renal cell carcinoma?",
+      "expected_behavior": "should_refuse_outside_knowledge",
+      "expected_sections": [],
+      "retrieval_check": false,
+      "expected_keyfacts": [
+        "must NOT state any approval status or approval date",
+        "must say the protocol / retrieved excerpts do not cover regulatory approval status"
+      ],
+      "notes": "Sharpest grounding test. Belzutifan's real-world approvals are outside knowledge; the protocol is a study plan and does not state approval status."
+    },
+    {
+      "id": "q16", "category": "adversarial_outside_knowledge",
+      "question": "What overall survival benefit did this study ultimately demonstrate when its results were published?",
+      "expected_behavior": "should_refuse_outside_knowledge",
+      "expected_sections": [],
+      "retrieval_check": false,
+      "expected_keyfacts": [
+        "must NOT report any results, hazard ratio, or survival numbers",
+        "must say the protocol describes the planned analysis, not study outcomes / results"
+      ],
+      "notes": "The protocol predates results. Answering from the NEJM 2024 publication would be a grounding failure."
+    },
+    {
+      "id": "q17", "category": "excluded_section",
+      "question": "What specific laboratory tests make up the protocol's required safety blood panel?",
+      "expected_behavior": "not_in_excerpts",
+      "expected_sections": ["10.2"],
+      "retrieval_check": false,
+      "expected_keyfacts": [
+        "the itemized list of laboratory tests (Appendix 2 / Table 14) is not in the retrieved excerpts",
+        "excerpts may note that Appendix 2 holds the list, but must not invent the panel contents"
+      ],
+      "notes": "Appendix 2 (Section 10.2) is excluded (flattened table). Retrievable Section 8.3.4 explicitly defers to Appendix 2 - same shape as the SoA case."
+    },
+    {
+      "id": "q18", "category": "excluded_section_leaked",
+      "question": "Over what time period are adverse events and serious adverse events reported, relative to the last dose of study intervention?",
+      "expected_behavior": "answer",
+      "expected_sections": ["4.1"],
+      "retrieval_check": true,
+      "expected_keyfacts": [
+        "AEs reported from informed consent through 30 days following cessation of study intervention",
+        "SAEs reported from intervention allocation through 90 days following cessation (or 30 days if the participant starts new anticancer therapy, whichever is earlier)"
+      ],
+      "notes": "The 'home' section for this (8.4.1) is excluded from the corpus, but the same windows are restated in Section 4.1 Overall Design (chunk 4.1/3), which IS retrievable. Tests that excluded-section facts are still found when duplicated elsewhere."
+    }
+  ]
+}

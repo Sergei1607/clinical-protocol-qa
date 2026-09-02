@@ -107,6 +107,9 @@ Frontend and the FastAPI app itself come later — too early now.
 4. **Retrieval + answer endpoint** — FastAPI `POST /ask`: embed question → top-k
    (k=8) retrieve → single grounded Claude call → answer + parsed citations.
    ✅ done (`backend/rag.py`, `backend/main.py`, `backend/test_ask.py`)
+4b. **Eval harness** — `eval/eval_set.json` (18 Qs) + `eval/run_eval.py`: per-Q
+   retrieval recall + LLM-judge (Sonnet) → `eval/results.{json,md}`. ✅ done
+   (baseline: 17/18 pass, 1 borderline, 100% section-level retrieval recall)
 5. **Frontend** — chat UI (reuse Project 2 pattern): question box, answer view,
    visible citation, link/expand to the cited chunk. ← *current step*
 6. **Deploy** — Render (backend) + Vercel (frontend); verify the *live* app
@@ -157,12 +160,22 @@ DB access: `backend/.env` (gitignored) holds `SUPABASE_OWNER_URL` (local only,
 DDL + writes), `SUPABASE_READONLY_URL` (`app_readonly`, the API path), and
 `ANTHROPIC_API_KEY`. See `backend/.env.example`.
 
-Decisions locked in: §11 excluded; 6.1/6.6.1/8.4.1/10.2/9.3 stay excluded (no
-salvage); 1.1 + 3 recovered via pdfplumber and back in the corpus.
+- `eval/` — reusable harness. `eval_set.json`: 18 Qs (10 from test_ask + 8 new)
+  each with expected_sections / expected_behavior / expected_keyfacts.
+  `run_eval.py`: programmatic retrieval-recall + Sonnet LLM-judge →
+  `results.{json,md}`. Baseline run: **17/18 judge pass, 1 borderline (q12 —
+  answer omitted the Kaplan-Meier keyfact), 0 fail; retrieval recall 14/14
+  (section granularity — q10's §5.2 hit was the wrong sub-chunk, bot correctly
+  deferred)**. Judge switched Haiku→Sonnet (Haiku ignored the `also_acceptable`
+  rule on q10). ~$0.22/run.
 
-**Next: React frontend.** `/ask` validated on 10 questions — grounding/honesty is
-solid (redaction -> "redacted"; excluded SoA -> "not in the excerpts, here's what
-is"; retrieval miss -> "can't answer from these"). Claude's synthesis across k=8
-covers imperfect ranking. Known: retrieval is phrasing-sensitive — specific
-wording finds the exclusion criterion, vague wording doesn't, but the bot says
-so. Consider bge-base / sibling-sub-chunk fetch / hybrid keyword search later.
+Decisions locked in: §11 excluded; 6.1/6.6.1/8.4.1/10.2/9.3 stay excluded (no
+salvage); 1.1 + 3 recovered via pdfplumber and back in the corpus. Eval failures
+NOT yet acted on — review together before changing chunking/retrieval/prompt.
+
+**Next: React frontend.** Grounding/honesty is solid across the 18-Q eval
+(redaction → "redacted"; excluded SoA/Appendix-2 → "not in the excerpts, here's
+what is"; outside-knowledge → refuse; retrieval miss → "can't answer from these").
+Known: retrieval is phrasing-sensitive — specific wording finds the exclusion
+criterion, vague wording doesn't, but the bot says so. Candidate fixes for later:
+bge-base, sibling-sub-chunk fetch, hybrid keyword search.

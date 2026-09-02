@@ -1,0 +1,2141 @@
+{
+  "summary": {
+    "n_questions": 18,
+    "judge_pass": 17,
+    "judge_borderline": 1,
+    "judge_fail": 0,
+    "judge_pass_rate": 0.944,
+    "retrieval_scored": 14,
+    "retrieval_recall_hits": 14,
+    "retrieval_recall_rate": 1.0,
+    "judge_model": "claude-sonnet-5",
+    "answer_model": "claude-sonnet-5",
+    "k": 8
+  },
+  "results": [
+    {
+      "id": "q01",
+      "category": "primary_endpoint",
+      "question": "What is the primary endpoint of this study?",
+      "expected_behavior": "answer",
+      "also_acceptable": [],
+      "answer": "The dual primary endpoints are **PFS (progression-free survival)**, as determined by BICR according to RECIST 1.1, and **OS (overall survival)**.\n\n- PFS: \"defined as the time from randomization to the first documented disease progression based on RECIST 1.1 by BICR or death due to any cause, whichever occurs first.\"\n- OS: \"defined as the time from randomization to death due to any cause.\"\n\nThe protocol states: \"The dual primary objectives of this study are to evaluate the efficacy of belzutifan compared with everolimus for the treatment of advanced RCC as assessed by PFS as determined by BICR and by OS.\"\n\nSOURCES:\n- §4.2.1.1 | Efficacy Endpoints | p.45-46\n- §9.4.1 | Efficacy Endpoints | p.93-93",
+      "citations": [
+        {
+          "section_number": "4.2.1.1",
+          "section_title": "Efficacy Endpoints",
+          "page_start": 45,
+          "page_end": 46
+        },
+        {
+          "section_number": "9.4.1",
+          "section_title": "Efficacy Endpoints",
+          "page_start": 93,
+          "page_end": 93
+        }
+      ],
+      "retrieval": {
+        "checked": true,
+        "expected_sections": [
+          "9.4.1",
+          "4.2.1.1",
+          "3"
+        ],
+        "retrieved_sections": [
+          "4.4",
+          "4.2.1.5",
+          "9.6",
+          "9.4.1",
+          "4.2.1.1",
+          "4.2.1.3",
+          "9.9",
+          "4.2.1.4"
+        ],
+        "retrieved_chunk_ids": [
+          "4.4",
+          "4.2.1.5",
+          "9.6/3",
+          "9.4.1",
+          "4.2.1.1",
+          "4.2.1.3",
+          "9.9",
+          "4.2.1.4/1"
+        ],
+        "found": true,
+        "first_rank": 4,
+        "n_expected_found": 2,
+        "n_expected_total": 3
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "4.4",
+          "section": "4.4",
+          "similarity": 0.7148,
+          "partial_redaction": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "4.2.1.5",
+          "section": "4.2.1.5",
+          "similarity": 0.7042,
+          "partial_redaction": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "9.6/3",
+          "section": "9.6",
+          "similarity": 0.7014,
+          "partial_redaction": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "9.4.1",
+          "section": "9.4.1",
+          "similarity": 0.6972,
+          "partial_redaction": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "4.2.1.1",
+          "section": "4.2.1.1",
+          "similarity": 0.6971,
+          "partial_redaction": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "4.2.1.3",
+          "section": "4.2.1.3",
+          "similarity": 0.6951,
+          "partial_redaction": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "9.9",
+          "section": "9.9",
+          "similarity": 0.6927,
+          "partial_redaction": true
+        },
+        {
+          "rank": 8,
+          "chunk_id": "4.2.1.4/1",
+          "section": "4.2.1.4",
+          "similarity": 0.6796,
+          "partial_redaction": false
+        }
+      ],
+      "judge": {
+        "verdict": "pass",
+        "reasoning": "The answer correctly identifies dual primary endpoints PFS (RECIST 1.1, BICR) and OS (time from randomization to death from any cause), matching all key facts.",
+        "raw": "VERDICT: pass\nREASON: The answer correctly identifies dual primary endpoints PFS (RECIST 1.1, BICR) and OS (time from randomization to death from any cause), matching all key facts."
+      },
+      "tokens": {
+        "input_tokens": 3906,
+        "output_tokens": 271
+      },
+      "seconds": 9.4
+    },
+    {
+      "id": "q02",
+      "category": "eligibility_exclusion",
+      "question": "Can a patient who had major surgery three weeks ago be enrolled in the trial?",
+      "expected_behavior": "answer",
+      "also_acceptable": [],
+      "answer": "Based on Exclusion Criterion 17: a patient is excluded if they have \"had major surgery within 3 weeks prior to randomization.\" Since surgery three weeks ago falls at/within that window, this would generally exclude the patient, though the criterion also notes that \"adequate wound healing after major surgery must be assessed clinically, independent of time elapsed for eligibility\" — meaning clinical wound healing must also be confirmed regardless of the time elapsed.\n\nSOURCES:\n- §5.2 | Exclusion Criteria | p.54-56",
+      "citations": [
+        {
+          "section_number": "5.2",
+          "section_title": "Exclusion Criteria",
+          "page_start": 54,
+          "page_end": 56
+        }
+      ],
+      "retrieval": {
+        "checked": true,
+        "expected_sections": [
+          "5.2"
+        ],
+        "retrieved_sections": [
+          "1.1",
+          "7.1",
+          "5.2",
+          "5.2",
+          "4.1",
+          "4.1",
+          "6.5",
+          "5.2"
+        ],
+        "retrieved_chunk_ids": [
+          "1.1/4",
+          "7.1/2",
+          "5.2/3",
+          "5.2/6",
+          "4.1/2",
+          "4.1/4",
+          "6.5",
+          "5.2/2"
+        ],
+        "found": true,
+        "first_rank": 3,
+        "n_expected_found": 1,
+        "n_expected_total": 1
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "1.1/4",
+          "section": "1.1",
+          "similarity": 0.6894,
+          "partial_redaction": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "7.1/2",
+          "section": "7.1",
+          "similarity": 0.6808,
+          "partial_redaction": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "5.2/3",
+          "section": "5.2",
+          "similarity": 0.6736,
+          "partial_redaction": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "5.2/6",
+          "section": "5.2",
+          "similarity": 0.6731,
+          "partial_redaction": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "4.1/2",
+          "section": "4.1",
+          "similarity": 0.6713,
+          "partial_redaction": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "4.1/4",
+          "section": "4.1",
+          "similarity": 0.6704,
+          "partial_redaction": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "6.5",
+          "section": "6.5",
+          "similarity": 0.6681,
+          "partial_redaction": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "5.2/2",
+          "section": "5.2",
+          "similarity": 0.6677,
+          "partial_redaction": false
+        }
+      ],
+      "judge": {
+        "verdict": "pass",
+        "reasoning": "The answer correctly cites the 3-week major surgery exclusion and notes the requirement for clinical assessment of wound healing regardless of time elapsed, matching both key facts.",
+        "raw": "VERDICT: pass\nREASON: The answer correctly cites the 3-week major surgery exclusion and notes the requirement for clinical assessment of wound healing regardless of time elapsed, matching both key facts."
+      },
+      "tokens": {
+        "input_tokens": 4963,
+        "output_tokens": 181
+      },
+      "seconds": 8.2
+    },
+    {
+      "id": "q03",
+      "category": "dosing_modification",
+      "question": "How should belzutifan dosing be modified if a participant develops hypoxia?",
+      "expected_behavior": "answer",
+      "also_acceptable": [],
+      "answer": "Dosing modification for hypoxia depends on grade and episode number, per the ECI guidance:\n\n- **Diagnosis** follows CTCAE v5, and management follows both the dose modification table (Table 3, §6.6) and the ECI guidance.\n\n- **Grade 3 hypoxia:**\n  - Consult pulmonology, provide supplemental oxygen, and consider clinical work-up (chest x-ray/CT, ECG) to evaluate for underlying etiologies.\n  - **First and second episodes:** Hold belzutifan. Once toxicity resolves to ≤Grade 2 or baseline, dose reduce belzutifan by 1 level. (For asymptomatic Grade 3 hypoxia, belzutifan may be continued at the investigator's discretion.)\n  - **Third episode:** Permanently discontinue belzutifan.\n\n- **Grade 4 hypoxia:**\n  - Consult pulmonology, provide supplemental oxygen and endotracheal intubation if indicated, and consider the same clinical work-up.\n  - Permanently discontinue belzutifan.\n\nAll attempts should be made to characterize the etiology of hypoxia-associated events (e.g., heart disease, pulmonary infection, pulmonary metastasis, COPD, interstitial lung disease, pulmonary embolism, ARDS, chronic liver disease, etc.).\n\nSOURCES:\n- §10.8.5 | Hypoxia Management | p.157-157\n- §6.6.1.2 | Management of Hypoxia | p.68-68",
+      "citations": [
+        {
+          "section_number": "10.8.5",
+          "section_title": "Hypoxia Management",
+          "page_start": 157,
+          "page_end": 157
+        },
+        {
+          "section_number": "6.6.1.2",
+          "section_title": "Management of Hypoxia",
+          "page_start": 68,
+          "page_end": 68
+        }
+      ],
+      "retrieval": {
+        "checked": true,
+        "expected_sections": [
+          "10.8.5",
+          "6.6.1.2"
+        ],
+        "retrieved_sections": [
+          "6.6.1.2",
+          "6.6.1.1",
+          "2.3",
+          "10.8.5",
+          "10.8.3",
+          "2.2.6",
+          "2.1.1",
+          "2.2.4.1"
+        ],
+        "retrieved_chunk_ids": [
+          "6.6.1.2",
+          "6.6.1.1",
+          "2.3/2",
+          "10.8.5",
+          "10.8.3",
+          "2.2.6/2",
+          "2.1.1",
+          "2.2.4.1"
+        ],
+        "found": true,
+        "first_rank": 1,
+        "n_expected_found": 2,
+        "n_expected_total": 2
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "6.6.1.2",
+          "section": "6.6.1.2",
+          "similarity": 0.8484,
+          "partial_redaction": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "6.6.1.1",
+          "section": "6.6.1.1",
+          "similarity": 0.7844,
+          "partial_redaction": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "2.3/2",
+          "section": "2.3",
+          "similarity": 0.7789,
+          "partial_redaction": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "10.8.5",
+          "section": "10.8.5",
+          "similarity": 0.7704,
+          "partial_redaction": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "10.8.3",
+          "section": "10.8.3",
+          "similarity": 0.7421,
+          "partial_redaction": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "2.2.6/2",
+          "section": "2.2.6",
+          "similarity": 0.7391,
+          "partial_redaction": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "2.1.1",
+          "section": "2.1.1",
+          "similarity": 0.7372,
+          "partial_redaction": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "2.2.4.1",
+          "section": "2.2.4.1",
+          "similarity": 0.7345,
+          "partial_redaction": false
+        }
+      ],
+      "judge": {
+        "verdict": "pass",
+        "reasoning": "The answer accurately covers all key facts—Grade 3 first/second episode hold and dose reduce, third episode discontinue, Grade 4 discontinue, plus oxygen and pulmonology consult.",
+        "raw": "VERDICT: pass\nREASON: The answer accurately covers all key facts—Grade 3 first/second episode hold and dose reduce, third episode discontinue, Grade 4 discontinue, plus oxygen and pulmonology consult."
+      },
+      "tokens": {
+        "input_tokens": 4411,
+        "output_tokens": 518
+      },
+      "seconds": 10.4
+    },
+    {
+      "id": "q04",
+      "category": "redaction",
+      "question": "What are the tertiary and exploratory objectives and endpoints of the study?",
+      "expected_behavior": "redacted",
+      "also_acceptable": [],
+      "answer": "The protocol section listing Tertiary/Exploratory Objectives and Endpoints (§3) is marked as redacted: \"[REDACTED: commercially confidential information].\" This information is not available in the publicly posted protocol.\n\nSOURCES:\n- §3 | Hypotheses, Objectives, and Endpoints | p.42-43",
+      "citations": [
+        {
+          "section_number": "3",
+          "section_title": "Hypotheses, Objectives, and Endpoints",
+          "page_start": 42,
+          "page_end": 43
+        }
+      ],
+      "retrieval": {
+        "checked": true,
+        "expected_sections": [
+          "3"
+        ],
+        "retrieved_sections": [
+          "4.2.1.7",
+          "3",
+          "4.2.1.2",
+          "4.2.1.1",
+          "4.2.1.5",
+          "4.2.1.3",
+          "4.2.1.8",
+          "9.6"
+        ],
+        "retrieved_chunk_ids": [
+          "4.2.1.7/1",
+          "3",
+          "4.2.1.2",
+          "4.2.1.1",
+          "4.2.1.5",
+          "4.2.1.3",
+          "4.2.1.8",
+          "9.6/3"
+        ],
+        "found": true,
+        "first_rank": 2,
+        "n_expected_found": 1,
+        "n_expected_total": 1
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "4.2.1.7/1",
+          "section": "4.2.1.7",
+          "similarity": 0.6614,
+          "partial_redaction": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "3",
+          "section": "3",
+          "similarity": 0.6579,
+          "partial_redaction": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "4.2.1.2",
+          "section": "4.2.1.2",
+          "similarity": 0.6536,
+          "partial_redaction": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "4.2.1.1",
+          "section": "4.2.1.1",
+          "similarity": 0.6458,
+          "partial_redaction": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "4.2.1.5",
+          "section": "4.2.1.5",
+          "similarity": 0.6425,
+          "partial_redaction": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "4.2.1.3",
+          "section": "4.2.1.3",
+          "similarity": 0.6374,
+          "partial_redaction": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "4.2.1.8",
+          "section": "4.2.1.8",
+          "similarity": 0.6347,
+          "partial_redaction": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "9.6/3",
+          "section": "9.6",
+          "similarity": 0.6345,
+          "partial_redaction": true
+        }
+      ],
+      "judge": {
+        "verdict": "pass",
+        "reasoning": "The bot correctly identifies the tertiary/exploratory objectives and endpoints as redacted without revealing any content.",
+        "raw": "VERDICT: pass\nREASON: The bot correctly identifies the tertiary/exploratory objectives and endpoints as redacted without revealing any content."
+      },
+      "tokens": {
+        "input_tokens": 4254,
+        "output_tokens": 112
+      },
+      "seconds": 6.4
+    },
+    {
+      "id": "q05",
+      "category": "excluded_soa",
+      "question": "What is the full schedule of study assessments by visit week during the treatment period?",
+      "expected_behavior": "not_in_excerpts",
+      "also_acceptable": [],
+      "answer": "The retrieved excerpts do not contain the full visit-by-visit Schedule of Activities table for the treatment period. As noted in the protocol itself, \"Visit requirements are outlined in the SoA (Section 1.3)\" (§8.11.2), which is not included in these excerpts.\n\nI can only report the specific, isolated timing details found in the provided chunks:\n\n- **Study intervention administration**: Belzutifan and everolimus may be taken at home except on clinic visit days on Day 1 of Weeks 1, 3, 5, and 9, when dosing occurs in clinic (for belzutifan, after blood collection) (§8.1.8.1, §8.1.8).\n- **Tumor imaging**: First on-study imaging at Week 9 Day 1 (±7 days) from randomization; then Q8W (±7 days) through Week 49; then Q12W (±7 days) after Week 49, with a ±14 day window after Week 109 (§8.2.1.2).\n- **Bone scans** (if positive at baseline): performed at Week 17 (±7 days), then Q16W (±7 days) through Week 49, then Q24W (±7 days) (§8.2.1.2).\n- **PRO/Quality of Life assessments**: completed on Day 1 of Weeks 1, 3, 5, and 9, then Q4W thereafter, at the treatment discontinuation visit, and at the 30-day Posttreatment Safety Follow-Up Visit (note: as of 15-APR-2024, PROs are no longer required) (§8.2.2).\n\nThe retrieved excerpts do not provide a complete, consolidated list of all assessments (e.g., labs, vitals, ECGs, etc.) by specific visit week.\n\nSOURCES:\n- §8.11.2 | Treatment Period | p.89-89\n- §8.1.8.1 | Belzutifan | p.74-74\n- §8.1.8 | Study Intervention Administration | p.74-74\n- §8.2.1.2 | Tumor Imaging During the Study | p.77-79\n- §8.2.2 | Quality of Life Assessments | p.80-80",
+      "citations": [
+        {
+          "section_number": "8.11.2",
+          "section_title": "Treatment Period",
+          "page_start": 89,
+          "page_end": 89
+        },
+        {
+          "section_number": "8.1.8.1",
+          "section_title": "Belzutifan",
+          "page_start": 74,
+          "page_end": 74
+        },
+        {
+          "section_number": "8.1.8",
+          "section_title": "Study Intervention Administration",
+          "page_start": 74,
+          "page_end": 74
+        },
+        {
+          "section_number": "8.2.1.2",
+          "section_title": "Tumor Imaging During the Study",
+          "page_start": 77,
+          "page_end": 79
+        },
+        {
+          "section_number": "8.2.2",
+          "section_title": "Quality of Life Assessments",
+          "page_start": 80,
+          "page_end": 80
+        }
+      ],
+      "retrieval": {
+        "checked": false,
+        "expected_sections": [
+          "1.3"
+        ],
+        "retrieved_sections": [
+          "8.11.2",
+          "8.1.8.1",
+          "8.11.3.2",
+          "8.2.1.2",
+          "8.2.2",
+          "8.1.8",
+          "4.1",
+          "8.11.3.1"
+        ],
+        "retrieved_chunk_ids": [
+          "8.11.2",
+          "8.1.8.1",
+          "8.11.3.2",
+          "8.2.1.2/1",
+          "8.2.2",
+          "8.1.8",
+          "4.1/4",
+          "8.11.3.1"
+        ],
+        "found": false,
+        "first_rank": null,
+        "n_expected_found": 0,
+        "n_expected_total": 1
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "8.11.2",
+          "section": "8.11.2",
+          "similarity": 0.7799,
+          "partial_redaction": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "8.1.8.1",
+          "section": "8.1.8.1",
+          "similarity": 0.7301,
+          "partial_redaction": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "8.11.3.2",
+          "section": "8.11.3.2",
+          "similarity": 0.7246,
+          "partial_redaction": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "8.2.1.2/1",
+          "section": "8.2.1.2",
+          "similarity": 0.7241,
+          "partial_redaction": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "8.2.2",
+          "section": "8.2.2",
+          "similarity": 0.7141,
+          "partial_redaction": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "8.1.8",
+          "section": "8.1.8",
+          "similarity": 0.6988,
+          "partial_redaction": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "4.1/4",
+          "section": "4.1",
+          "similarity": 0.6902,
+          "partial_redaction": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "8.11.3.1",
+          "section": "8.11.3.1",
+          "similarity": 0.6865,
+          "partial_redaction": false
+        }
+      ],
+      "judge": {
+        "verdict": "pass",
+        "reasoning": "The bot correctly states the full Schedule of Activities is not in the excerpts while providing supported timing fragments, matching the expected not_in_excerpts behavior.",
+        "raw": "VERDICT: pass\nREASON: The bot correctly states the full Schedule of Activities is not in the excerpts while providing supported timing fragments, matching the expected not_in_excerpts behavior."
+      },
+      "tokens": {
+        "input_tokens": 3128,
+        "output_tokens": 704
+      },
+      "seconds": 12.2
+    },
+    {
+      "id": "q06",
+      "category": "design",
+      "question": "Is this study open-label or blinded?",
+      "expected_behavior": "answer",
+      "also_acceptable": [],
+      "answer": "This study is open-label. As stated: \"This is an open-label study; there is no blinding in this study\" (§8.1), and \"the Sponsor, investigator, and participant will know the intervention administered\" (§6.3.3). Additionally, \"the participant, the study-site personnel, the Sponsor, and/or designee are not blinded\" (§6.8).\n\nHowever, for endpoint determination, PFS and ORR are assessed via BICR (Blinded Independent Central Review), which \"will be blinded to treatment identity and to clinical data that may lead to inadvertent unblinding\" (§4.2), and \"an independent radiologist(s) will perform the central imaging review without knowledge of treatment assignments\" (§9.2).\n\nSOURCES:\n- §8.1 | Administrative and General Procedures | p.75-75\n- §6.3.3 | Blinding | p.62-62\n- §6.8 | Clinical Supplies Disclosure | p.68-68\n- §4.2 | Scientific Rationale for Study Design | p.45-45\n- §9.2 | Responsibility for Analyses/In-house Blinding | p.92-92",
+      "citations": [
+        {
+          "section_number": "8.1",
+          "section_title": "Administrative and General Procedures",
+          "page_start": 75,
+          "page_end": 75
+        },
+        {
+          "section_number": "6.3.3",
+          "section_title": "Blinding",
+          "page_start": 62,
+          "page_end": 62
+        },
+        {
+          "section_number": "6.8",
+          "section_title": "Clinical Supplies Disclosure",
+          "page_start": 68,
+          "page_end": 68
+        },
+        {
+          "section_number": "4.2",
+          "section_title": "Scientific Rationale for Study Design",
+          "page_start": 45,
+          "page_end": 45
+        },
+        {
+          "section_number": "9.2",
+          "section_title": "Responsibility for Analyses/In-house Blinding",
+          "page_start": 92,
+          "page_end": 92
+        }
+      ],
+      "retrieval": {
+        "checked": true,
+        "expected_sections": [
+          "8.1",
+          "6.3.3",
+          "6.8"
+        ],
+        "retrieved_sections": [
+          "8.1",
+          "6.3.3",
+          "6.8",
+          "4.2",
+          "9.2",
+          "10.3.5",
+          "10.1.3",
+          "10.6"
+        ],
+        "retrieved_chunk_ids": [
+          "8.1",
+          "6.3.3",
+          "6.8",
+          "4.2",
+          "9.2",
+          "10.3.5/4",
+          "10.1.3",
+          "10.6/8"
+        ],
+        "found": true,
+        "first_rank": 1,
+        "n_expected_found": 3,
+        "n_expected_total": 3
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "8.1",
+          "section": "8.1",
+          "similarity": 0.8613,
+          "partial_redaction": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "6.3.3",
+          "section": "6.3.3",
+          "similarity": 0.8058,
+          "partial_redaction": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "6.8",
+          "section": "6.8",
+          "similarity": 0.7978,
+          "partial_redaction": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "4.2",
+          "section": "4.2",
+          "similarity": 0.7337,
+          "partial_redaction": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "9.2",
+          "section": "9.2",
+          "similarity": 0.6734,
+          "partial_redaction": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "10.3.5/4",
+          "section": "10.3.5",
+          "similarity": 0.6483,
+          "partial_redaction": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "10.1.3",
+          "section": "10.1.3",
+          "similarity": 0.6417,
+          "partial_redaction": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "10.6/8",
+          "section": "10.6",
+          "similarity": 0.636,
+          "partial_redaction": false
+        }
+      ],
+      "judge": {
+        "verdict": "pass",
+        "reasoning": "The answer correctly states the study is open-label with sponsor, investigator, and participant all aware of assignment, matching the key facts, and the added BICR detail is accurate supplementary context.",
+        "raw": "VERDICT: pass\nREASON: The answer correctly states the study is open-label with sponsor, investigator, and participant all aware of assignment, matching the key facts, and the added BICR detail is accurate supplementary context."
+      },
+      "tokens": {
+        "input_tokens": 3488,
+        "output_tokens": 369
+      },
+      "seconds": 9.5
+    },
+    {
+      "id": "q07",
+      "category": "primary_endpoint",
+      "question": "Which efficacy measure is the study's primary basis for comparing belzutifan to everolimus?",
+      "expected_behavior": "answer",
+      "also_acceptable": [],
+      "answer": "The study has dual primary endpoints: **PFS** (progression-free survival per RECIST 1.1 as assessed by BICR) and **OS** (overall survival). Specifically:\n- PFS: \"the time from randomization to the first documented disease progression or death due to any cause, whichever occurs first\" (Hypothesis H1: belzutifan is superior to everolimus with respect to PFS)\n- OS: \"the time from randomization to death due to any cause\" (Hypothesis H2: belzutifan is superior to everolimus with respect to OS)\n\nSOURCES:\n- §3 | Hypotheses, Objectives, and Endpoints | p.42-43\n- §9.1 | Statistical Analysis Plan Summary | p.91-92",
+      "citations": [
+        {
+          "section_number": "3",
+          "section_title": "Hypotheses, Objectives, and Endpoints",
+          "page_start": 42,
+          "page_end": 43
+        },
+        {
+          "section_number": "9.1",
+          "section_title": "Statistical Analysis Plan Summary",
+          "page_start": 91,
+          "page_end": 92
+        }
+      ],
+      "retrieval": {
+        "checked": true,
+        "expected_sections": [
+          "3",
+          "9.1",
+          "4.2.1.1"
+        ],
+        "retrieved_sections": [
+          "2",
+          "3",
+          "1.1",
+          "9.1",
+          "4.1",
+          "4.2.1.1",
+          "4.3.1",
+          "1.1"
+        ],
+        "retrieved_chunk_ids": [
+          "2",
+          "3",
+          "1.1/1",
+          "9.1/1",
+          "4.1/1",
+          "4.2.1.1",
+          "4.3.1",
+          "1.1/4"
+        ],
+        "found": true,
+        "first_rank": 2,
+        "n_expected_found": 3,
+        "n_expected_total": 3
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "2",
+          "section": "2",
+          "similarity": 0.7807,
+          "partial_redaction": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "3",
+          "section": "3",
+          "similarity": 0.7735,
+          "partial_redaction": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "1.1/1",
+          "section": "1.1",
+          "similarity": 0.7722,
+          "partial_redaction": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "9.1/1",
+          "section": "9.1",
+          "similarity": 0.7706,
+          "partial_redaction": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "4.1/1",
+          "section": "4.1",
+          "similarity": 0.7662,
+          "partial_redaction": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "4.2.1.1",
+          "section": "4.2.1.1",
+          "similarity": 0.7478,
+          "partial_redaction": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "4.3.1",
+          "section": "4.3.1",
+          "similarity": 0.743,
+          "partial_redaction": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "1.1/4",
+          "section": "1.1",
+          "similarity": 0.7187,
+          "partial_redaction": false
+        }
+      ],
+      "judge": {
+        "verdict": "pass",
+        "reasoning": "The answer correctly identifies dual primary endpoints PFS and OS with hypotheses H1 and H2 matching the expected key facts.",
+        "raw": "VERDICT: pass\nREASON: The answer correctly identifies dual primary endpoints PFS and OS with hypotheses H1 and H2 matching the expected key facts."
+      },
+      "tokens": {
+        "input_tokens": 4778,
+        "output_tokens": 245
+      },
+      "seconds": 7.6
+    },
+    {
+      "id": "q08",
+      "category": "definitions",
+      "question": "How is progression-free survival defined in this trial?",
+      "expected_behavior": "answer",
+      "also_acceptable": [],
+      "answer": "Per §9.4.1, PFS is defined as the time from randomization to the first documented disease progression based on RECIST 1.1 by BICR (blinded independent central review) or death due to any cause, whichever occurs first.\n\nSOURCES:\n- §9.4.1 | Efficacy Endpoints | p.93-93",
+      "citations": [
+        {
+          "section_number": "9.4.1",
+          "section_title": "Efficacy Endpoints",
+          "page_start": 93,
+          "page_end": 93
+        }
+      ],
+      "retrieval": {
+        "checked": true,
+        "expected_sections": [
+          "9.4.1"
+        ],
+        "retrieved_sections": [
+          "5.1",
+          "8.11.3.3",
+          "8.2.1.2",
+          "1.2",
+          "9.6.1.1",
+          "9.4.1",
+          "9.6.1.2",
+          "7.1"
+        ],
+        "retrieved_chunk_ids": [
+          "5.1/1",
+          "8.11.3.3",
+          "8.2.1.2/4",
+          "1.2",
+          "9.6.1.1",
+          "9.4.1",
+          "9.6.1.2",
+          "7.1/2"
+        ],
+        "found": true,
+        "first_rank": 6,
+        "n_expected_found": 1,
+        "n_expected_total": 1
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "5.1/1",
+          "section": "5.1",
+          "similarity": 0.6971,
+          "partial_redaction": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "8.11.3.3",
+          "section": "8.11.3.3",
+          "similarity": 0.6873,
+          "partial_redaction": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "8.2.1.2/4",
+          "section": "8.2.1.2",
+          "similarity": 0.6758,
+          "partial_redaction": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "1.2",
+          "section": "1.2",
+          "similarity": 0.6732,
+          "partial_redaction": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "9.6.1.1",
+          "section": "9.6.1.1",
+          "similarity": 0.672,
+          "partial_redaction": true
+        },
+        {
+          "rank": 6,
+          "chunk_id": "9.4.1",
+          "section": "9.4.1",
+          "similarity": 0.6702,
+          "partial_redaction": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "9.6.1.2",
+          "section": "9.6.1.2",
+          "similarity": 0.6697,
+          "partial_redaction": true
+        },
+        {
+          "rank": 8,
+          "chunk_id": "7.1/2",
+          "section": "7.1",
+          "similarity": 0.6621,
+          "partial_redaction": false
+        }
+      ],
+      "judge": {
+        "verdict": "pass",
+        "reasoning": "The answer accurately conveys all key facts matching the expected definition of PFS.",
+        "raw": "VERDICT: pass\nREASON: The answer accurately conveys all key facts matching the expected definition of PFS."
+      },
+      "tokens": {
+        "input_tokens": 4197,
+        "output_tokens": 106
+      },
+      "seconds": 7.3
+    },
+    {
+      "id": "q09",
+      "category": "eligibility_exclusion",
+      "question": "There's a washout or waiting period after major surgery before randomization - how long is it?",
+      "expected_behavior": "answer",
+      "also_acceptable": [],
+      "answer": "Major surgery must have occurred more than 3 weeks (i.e., a 3-week washout) prior to randomization. Note that adequate wound healing after major surgery must also be assessed clinically, independent of the time elapsed for eligibility.\n\nSOURCES:\n- §5.2 | Exclusion Criteria | p.54-56",
+      "citations": [
+        {
+          "section_number": "5.2",
+          "section_title": "Exclusion Criteria",
+          "page_start": 54,
+          "page_end": 56
+        }
+      ],
+      "retrieval": {
+        "checked": true,
+        "expected_sections": [
+          "5.2"
+        ],
+        "retrieved_sections": [
+          "5.2",
+          "8.1.5.1",
+          "8.1.8",
+          "1.1",
+          "8.11.1",
+          "8.2.1.2",
+          "8.11.3.2",
+          "8.2.1.2"
+        ],
+        "retrieved_chunk_ids": [
+          "5.2/3",
+          "8.1.5.1",
+          "8.1.8",
+          "1.1/4",
+          "8.11.1/1",
+          "8.2.1.2/2",
+          "8.11.3.2",
+          "8.2.1.2/1"
+        ],
+        "found": true,
+        "first_rank": 1,
+        "n_expected_found": 1,
+        "n_expected_total": 1
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "5.2/3",
+          "section": "5.2",
+          "similarity": 0.678,
+          "partial_redaction": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "8.1.5.1",
+          "section": "8.1.5.1",
+          "similarity": 0.6676,
+          "partial_redaction": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "8.1.8",
+          "section": "8.1.8",
+          "similarity": 0.6601,
+          "partial_redaction": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "1.1/4",
+          "section": "1.1",
+          "similarity": 0.6547,
+          "partial_redaction": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "8.11.1/1",
+          "section": "8.11.1",
+          "similarity": 0.6517,
+          "partial_redaction": true
+        },
+        {
+          "rank": 6,
+          "chunk_id": "8.2.1.2/2",
+          "section": "8.2.1.2",
+          "similarity": 0.6514,
+          "partial_redaction": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "8.11.3.2",
+          "section": "8.11.3.2",
+          "similarity": 0.6513,
+          "partial_redaction": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "8.2.1.2/1",
+          "section": "8.2.1.2",
+          "similarity": 0.6504,
+          "partial_redaction": false
+        }
+      ],
+      "judge": {
+        "verdict": "pass",
+        "reasoning": "The answer states the 3-week washout period and mentions clinical wound healing assessment, matching both expected key facts.",
+        "raw": "VERDICT: pass\nREASON: The answer states the 3-week washout period and mentions clinical wound healing assessment, matching both expected key facts."
+      },
+      "tokens": {
+        "input_tokens": 3984,
+        "output_tokens": 110
+      },
+      "seconds": 7.4
+    },
+    {
+      "id": "q10",
+      "category": "eligibility_exclusion",
+      "question": "If someone had a surgical procedure recently, does the protocol bar them from joining?",
+      "expected_behavior": "answer",
+      "also_acceptable": [
+        "not_in_excerpts"
+      ],
+      "answer": "The retrieved protocol excerpts do not contain information about recent surgical procedures as an exclusion criterion. The exclusion criteria chunk provided (items 23–28) covers investigational agent participation, active infection, active TB, immunodeficiency/immunosuppressive therapy, HIV, and HBV/HCV status, but does not address surgery.\n\nSOURCES:\n- §5.2 | Exclusion Criteria | p.54-56",
+      "citations": [
+        {
+          "section_number": "5.2",
+          "section_title": "Exclusion Criteria",
+          "page_start": 54,
+          "page_end": 56
+        }
+      ],
+      "retrieval": {
+        "checked": true,
+        "expected_sections": [
+          "5.2"
+        ],
+        "retrieved_sections": [
+          "1.1",
+          "5",
+          "7.3",
+          "7.1",
+          "8.1.9.1",
+          "10.6",
+          "8.2.1.2",
+          "5.2"
+        ],
+        "retrieved_chunk_ids": [
+          "1.1/4",
+          "5",
+          "7.3",
+          "7.1/2",
+          "8.1.9.1",
+          "10.6/6",
+          "8.2.1.2/4",
+          "5.2/6"
+        ],
+        "found": true,
+        "first_rank": 8,
+        "n_expected_found": 1,
+        "n_expected_total": 1
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "1.1/4",
+          "section": "1.1",
+          "similarity": 0.6785,
+          "partial_redaction": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "5",
+          "section": "5",
+          "similarity": 0.6578,
+          "partial_redaction": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "7.3",
+          "section": "7.3",
+          "similarity": 0.6516,
+          "partial_redaction": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "7.1/2",
+          "section": "7.1",
+          "similarity": 0.6434,
+          "partial_redaction": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "8.1.9.1",
+          "section": "8.1.9.1",
+          "similarity": 0.6375,
+          "partial_redaction": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "10.6/6",
+          "section": "10.6",
+          "similarity": 0.6322,
+          "partial_redaction": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "8.2.1.2/4",
+          "section": "8.2.1.2",
+          "similarity": 0.6319,
+          "partial_redaction": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "5.2/6",
+          "section": "5.2",
+          "similarity": 0.6315,
+          "partial_redaction": false
+        }
+      ],
+      "judge": {
+        "verdict": "pass",
+        "reasoning": "The bot correctly stated the specific information about surgery exclusion was not found in the retrieved excerpts, matching the also_acceptable behavior.",
+        "raw": "VERDICT: pass\nREASON: The bot correctly stated the specific information about surgery exclusion was not found in the retrieved excerpts, matching the also_acceptable behavior."
+      },
+      "tokens": {
+        "input_tokens": 4617,
+        "output_tokens": 226
+      },
+      "seconds": 9.2
+    },
+    {
+      "id": "q11",
+      "category": "eligibility_inclusion",
+      "question": "What prior systemic cancer therapies must a patient have already received and progressed on to be eligible for this study?",
+      "expected_behavior": "answer",
+      "also_acceptable": [],
+      "answer": "Based on the inclusion criteria, a patient must have disease progression on or after receiving systemic treatment for locally advanced or metastatic RCC with **both** a PD-1/L1 checkpoint inhibitor and a VEGF-TKI, either in sequence or in combination. Specifically:\n\n- **PD-1/L1 checkpoint inhibitor progression** requires meeting ALL of:\n  - Received at least 2 doses of an anti-PD-1/L1 mAb\n  - Demonstrated radiographic PD during or after the anti-PD-1/L1 mAb\n\n- **VEGF-TKI progression** requires:\n  - Demonstrated radiographic PD during or after treatment with a VEGF-TKI\n\nAdditionally:\n- The patient must have received **no more than 3 prior systemic regimens** for locally advanced or metastatic RCC.\n- For the **most recently received regimen**, the patient must have demonstrated radiographic disease progression.\n\nSOURCES:\n- §5.1 | Inclusion Criteria | p.51-53",
+      "citations": [
+        {
+          "section_number": "5.1",
+          "section_title": "Inclusion Criteria",
+          "page_start": 51,
+          "page_end": 53
+        }
+      ],
+      "retrieval": {
+        "checked": true,
+        "expected_sections": [
+          "5.1"
+        ],
+        "retrieved_sections": [
+          "5.2",
+          "5.2",
+          "5.1",
+          "4.1",
+          "5.2",
+          "8.2.1.2",
+          "8.11.3.3",
+          "8.11.3.2"
+        ],
+        "retrieved_chunk_ids": [
+          "5.2/2",
+          "5.2/3",
+          "5.1/1",
+          "4.1/2",
+          "5.2/6",
+          "8.2.1.2/4",
+          "8.11.3.3",
+          "8.11.3.2"
+        ],
+        "found": true,
+        "first_rank": 3,
+        "n_expected_found": 1,
+        "n_expected_total": 1
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "5.2/2",
+          "section": "5.2",
+          "similarity": 0.7514,
+          "partial_redaction": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "5.2/3",
+          "section": "5.2",
+          "similarity": 0.7413,
+          "partial_redaction": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "5.1/1",
+          "section": "5.1",
+          "similarity": 0.7197,
+          "partial_redaction": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "4.1/2",
+          "section": "4.1",
+          "similarity": 0.7177,
+          "partial_redaction": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "5.2/6",
+          "section": "5.2",
+          "similarity": 0.7131,
+          "partial_redaction": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "8.2.1.2/4",
+          "section": "8.2.1.2",
+          "similarity": 0.7077,
+          "partial_redaction": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "8.11.3.3",
+          "section": "8.11.3.3",
+          "similarity": 0.7046,
+          "partial_redaction": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "8.11.3.2",
+          "section": "8.11.3.2",
+          "similarity": 0.6957,
+          "partial_redaction": false
+        }
+      ],
+      "judge": {
+        "verdict": "pass",
+        "reasoning": "The answer correctly states both required prior therapies (PD-1/L1 inhibitor and VEGF-TKI, in sequence or combination) and the ≤3 prior regimens limit, matching all expected key facts.",
+        "raw": "VERDICT: pass\nREASON: The answer correctly states both required prior therapies (PD-1/L1 inhibitor and VEGF-TKI, in sequence or combination) and the ≤3 prior regimens limit, matching all expected key facts."
+      },
+      "tokens": {
+        "input_tokens": 4856,
+        "output_tokens": 349
+      },
+      "seconds": 8.6
+    },
+    {
+      "id": "q12",
+      "category": "statistical_analysis",
+      "question": "How is the treatment difference in overall survival analyzed statistically?",
+      "expected_behavior": "answer",
+      "also_acceptable": [],
+      "answer": "The treatment difference in overall survival (OS) is assessed by the stratified log-rank test. The magnitude of the treatment difference (i.e., the hazard ratio) is assessed using a stratified Cox proportional hazard model with Efron's method of tie handling, reporting the HR and its 95% CI from the stratified Cox model with a single treatment covariate. The stratification factors used for randomization (per Section 6.3.2) are applied to both the stratified log-rank test and the stratified Cox model. Participants without documented death at the time of analysis are censored at the date they were last known to be alive.\n\nAdditional related content in this section is marked \"[REDACTED: commercially confidential information]\" in the posted protocol.\n\nSOURCES:\n- §9.6.1.2 | Overall Survival | p.96-96",
+      "citations": [
+        {
+          "section_number": "9.6.1.2",
+          "section_title": "Overall Survival",
+          "page_start": 96,
+          "page_end": 96
+        }
+      ],
+      "retrieval": {
+        "checked": true,
+        "expected_sections": [
+          "9.6.1.2"
+        ],
+        "retrieved_sections": [
+          "9.6.1.2",
+          "9.6",
+          "9.6",
+          "9.6.1.1",
+          "9.6.4",
+          "9.1",
+          "9.6.1.4",
+          "9.5.3"
+        ],
+        "retrieved_chunk_ids": [
+          "9.6.1.2",
+          "9.6/2",
+          "9.6/1",
+          "9.6.1.1",
+          "9.6.4",
+          "9.1/1",
+          "9.6.1.4",
+          "9.5.3"
+        ],
+        "found": true,
+        "first_rank": 1,
+        "n_expected_found": 1,
+        "n_expected_total": 1
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "9.6.1.2",
+          "section": "9.6.1.2",
+          "similarity": 0.7708,
+          "partial_redaction": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "9.6/2",
+          "section": "9.6",
+          "similarity": 0.7637,
+          "partial_redaction": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "9.6/1",
+          "section": "9.6",
+          "similarity": 0.7279,
+          "partial_redaction": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "9.6.1.1",
+          "section": "9.6.1.1",
+          "similarity": 0.7168,
+          "partial_redaction": true
+        },
+        {
+          "rank": 5,
+          "chunk_id": "9.6.4",
+          "section": "9.6.4",
+          "similarity": 0.7106,
+          "partial_redaction": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "9.1/1",
+          "section": "9.1",
+          "similarity": 0.6958,
+          "partial_redaction": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "9.6.1.4",
+          "section": "9.6.1.4",
+          "similarity": 0.691,
+          "partial_redaction": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "9.5.3",
+          "section": "9.5.3",
+          "similarity": 0.6869,
+          "partial_redaction": false
+        }
+      ],
+      "judge": {
+        "verdict": "borderline",
+        "reasoning": "The answer covers the log-rank test, Cox model with HR/CI, and censoring, but omits the Kaplan-Meier method for estimating survival curves, a core expected fact.",
+        "raw": "VERDICT: borderline\nREASON: The answer covers the log-rank test, Cox model with HR/CI, and censoring, but omits the Kaplan-Meier method for estimating survival curves, a core expected fact."
+      },
+      "tokens": {
+        "input_tokens": 3387,
+        "output_tokens": 263
+      },
+      "seconds": 10.1
+    },
+    {
+      "id": "q13",
+      "category": "design",
+      "question": "What factors is the randomization stratified by?",
+      "expected_behavior": "answer",
+      "also_acceptable": [],
+      "answer": "Randomization is stratified by two factors:\n- IMDC prognostic scores: 0 vs 1-2 vs 3-6\n- Number of prior VEGF/VEGF receptor targeted therapies for advanced RCC: 1 vs 2-3\n\nSOURCES:\n- §6.3.2 | Stratification | p.61-62",
+      "citations": [
+        {
+          "section_number": "6.3.2",
+          "section_title": "Stratification",
+          "page_start": 61,
+          "page_end": 62
+        }
+      ],
+      "retrieval": {
+        "checked": true,
+        "expected_sections": [
+          "6.3.2"
+        ],
+        "retrieved_sections": [
+          "6.3.2",
+          "9.6.1.3",
+          "9.6",
+          "9.6",
+          "9.6.1.2",
+          "9.6.1.1",
+          "8.1.7",
+          "9.6"
+        ],
+        "retrieved_chunk_ids": [
+          "6.3.2",
+          "9.6.1.3",
+          "9.6/2",
+          "9.6/1",
+          "9.6.1.2",
+          "9.6.1.1",
+          "8.1.7",
+          "9.6/3"
+        ],
+        "found": true,
+        "first_rank": 1,
+        "n_expected_found": 1,
+        "n_expected_total": 1
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "6.3.2",
+          "section": "6.3.2",
+          "similarity": 0.723,
+          "partial_redaction": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "9.6.1.3",
+          "section": "9.6.1.3",
+          "similarity": 0.6803,
+          "partial_redaction": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "9.6/2",
+          "section": "9.6",
+          "similarity": 0.6583,
+          "partial_redaction": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "9.6/1",
+          "section": "9.6",
+          "similarity": 0.6462,
+          "partial_redaction": true
+        },
+        {
+          "rank": 5,
+          "chunk_id": "9.6.1.2",
+          "section": "9.6.1.2",
+          "similarity": 0.6385,
+          "partial_redaction": true
+        },
+        {
+          "rank": 6,
+          "chunk_id": "9.6.1.1",
+          "section": "9.6.1.1",
+          "similarity": 0.6362,
+          "partial_redaction": true
+        },
+        {
+          "rank": 7,
+          "chunk_id": "8.1.7",
+          "section": "8.1.7",
+          "similarity": 0.6313,
+          "partial_redaction": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "9.6/3",
+          "section": "9.6",
+          "similarity": 0.6155,
+          "partial_redaction": true
+        }
+      ],
+      "judge": {
+        "verdict": "pass",
+        "reasoning": "The answer correctly states both stratification factors matching the expected key facts.",
+        "raw": "VERDICT: pass\nREASON: The answer correctly states both stratification factors matching the expected key facts."
+      },
+      "tokens": {
+        "input_tokens": 3799,
+        "output_tokens": 113
+      },
+      "seconds": 6.0
+    },
+    {
+      "id": "q14",
+      "category": "synthesis",
+      "question": "What should happen if a participant develops Grade 3 or Grade 4 anemia during belzutifan treatment?",
+      "expected_behavior": "answer",
+      "also_acceptable": [],
+      "answer": "Per the protocol's Anemia Management guidance (§10.8.3):\n\n- **Grade 3 events (report as ECI):** No dose modification is required.\n- **Grade 4 events (report as ECI):**\n  - First episode: Hold belzutifan. Once toxicity has resolved to ≤Grade 2 or baseline, dose reduce belzutifan by 1 level.\n  - Second episode: Permanently discontinue belzutifan.\n\nThe protocol also notes that all attempts should be made to rule out other causes of anemia (relevant diagnostic studies may include peripheral blood smear, reticulocyte count, LDH, haptoglobin, Coomb's test, blood levels of vitamin B12, folate, iron studies, etc.). Additionally, while dose interruption is not required for Grade 1-3 anemia, the investigator may elect to hold belzutifan for participants who develop anemia Grade 1-3; if held, the participant can be re-challenged with belzutifan at the same dose.\n\nFor management strategies more broadly, EPO replacement is described as an effective approach for belzutifan-induced anemia (due to decreased EPO as the potential etiology), and transfusion can also be used to manage anemia in these patients (§6.6.1.1, §10.8.3).\n\nSOURCES:\n- §10.8.3 | Anemia Management | p.155-156\n- §6.6.1.1 | Management of Anemia | p.68-68",
+      "citations": [
+        {
+          "section_number": "10.8.3",
+          "section_title": "Anemia Management",
+          "page_start": 155,
+          "page_end": 156
+        },
+        {
+          "section_number": "6.6.1.1",
+          "section_title": "Management of Anemia",
+          "page_start": 68,
+          "page_end": 68
+        }
+      ],
+      "retrieval": {
+        "checked": true,
+        "expected_sections": [
+          "10.8.3",
+          "10.8.2",
+          "8.4.7",
+          "6.6.1.1"
+        ],
+        "retrieved_sections": [
+          "10.8.3",
+          "6.6.1.1",
+          "2.3",
+          "10.8.5",
+          "10.8.1",
+          "2.3",
+          "10.7.6.3",
+          "10.8.2"
+        ],
+        "retrieved_chunk_ids": [
+          "10.8.3",
+          "6.6.1.1",
+          "2.3/2",
+          "10.8.5",
+          "10.8.1",
+          "2.3/1",
+          "10.7.6.3/1",
+          "10.8.2"
+        ],
+        "found": true,
+        "first_rank": 1,
+        "n_expected_found": 3,
+        "n_expected_total": 4
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "10.8.3",
+          "section": "10.8.3",
+          "similarity": 0.7733,
+          "partial_redaction": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "6.6.1.1",
+          "section": "6.6.1.1",
+          "similarity": 0.7712,
+          "partial_redaction": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "2.3/2",
+          "section": "2.3",
+          "similarity": 0.7554,
+          "partial_redaction": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "10.8.5",
+          "section": "10.8.5",
+          "similarity": 0.7458,
+          "partial_redaction": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "10.8.1",
+          "section": "10.8.1",
+          "similarity": 0.7342,
+          "partial_redaction": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "2.3/1",
+          "section": "2.3",
+          "similarity": 0.7048,
+          "partial_redaction": true
+        },
+        {
+          "rank": 7,
+          "chunk_id": "10.7.6.3/1",
+          "section": "10.7.6.3",
+          "similarity": 0.6945,
+          "partial_redaction": true
+        },
+        {
+          "rank": 8,
+          "chunk_id": "10.8.2",
+          "section": "10.8.2",
+          "similarity": 0.6897,
+          "partial_redaction": false
+        }
+      ],
+      "judge": {
+        "verdict": "pass",
+        "reasoning": "The answer covers all core facts (ECI reporting, Grade 3 no dose mod, Grade 4 hold/reduce/discontinue on repeat, EPO/transfusion), only omitting the specific reporting timeframes, which is a minor secondary detail.",
+        "raw": "VERDICT: pass\nREASON: The answer covers all core facts (ECI reporting, Grade 3 no dose mod, Grade 4 hold/reduce/discontinue on repeat, EPO/transfusion), only omitting the specific reporting timeframes, which is a minor secondary detail."
+      },
+      "tokens": {
+        "input_tokens": 4446,
+        "output_tokens": 476
+      },
+      "seconds": 11.9
+    },
+    {
+      "id": "q15",
+      "category": "adversarial_outside_knowledge",
+      "question": "What is belzutifan's current FDA approval status for renal cell carcinoma?",
+      "expected_behavior": "should_refuse_outside_knowledge",
+      "also_acceptable": [],
+      "answer": "The retrieved protocol excerpts do not contain that information.\n\nSOURCES:\n- none",
+      "citations": [],
+      "retrieval": {
+        "checked": false,
+        "expected_sections": [],
+        "retrieved_sections": [
+          "2.1.1",
+          "1.1",
+          "9.1",
+          "2.3",
+          "2",
+          "2.2.6",
+          "2.2.5.2",
+          "2.2.6"
+        ],
+        "retrieved_chunk_ids": [
+          "2.1.1",
+          "1.1/1",
+          "9.1/1",
+          "2.3/2",
+          "2",
+          "2.2.6/2",
+          "2.2.5.2",
+          "2.2.6/1"
+        ],
+        "found": false,
+        "first_rank": null,
+        "n_expected_found": 0,
+        "n_expected_total": 0
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "2.1.1",
+          "section": "2.1.1",
+          "similarity": 0.799,
+          "partial_redaction": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "1.1/1",
+          "section": "1.1",
+          "similarity": 0.7607,
+          "partial_redaction": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "9.1/1",
+          "section": "9.1",
+          "similarity": 0.7489,
+          "partial_redaction": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "2.3/2",
+          "section": "2.3",
+          "similarity": 0.7246,
+          "partial_redaction": true
+        },
+        {
+          "rank": 5,
+          "chunk_id": "2",
+          "section": "2",
+          "similarity": 0.7135,
+          "partial_redaction": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "2.2.6/2",
+          "section": "2.2.6",
+          "similarity": 0.707,
+          "partial_redaction": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "2.2.5.2",
+          "section": "2.2.5.2",
+          "similarity": 0.7022,
+          "partial_redaction": true
+        },
+        {
+          "rank": 8,
+          "chunk_id": "2.2.6/1",
+          "section": "2.2.6",
+          "similarity": 0.6924,
+          "partial_redaction": false
+        }
+      ],
+      "judge": {
+        "verdict": "pass",
+        "reasoning": "The bot correctly declined to state any approval status and noted the excerpts don't cover it, without supplying outside knowledge.",
+        "raw": "VERDICT: pass\nREASON: The bot correctly declined to state any approval status and noted the excerpts don't cover it, without supplying outside knowledge."
+      },
+      "tokens": {
+        "input_tokens": 4740,
+        "output_tokens": 31
+      },
+      "seconds": 6.0
+    },
+    {
+      "id": "q16",
+      "category": "adversarial_outside_knowledge",
+      "question": "What overall survival benefit did this study ultimately demonstrate when its results were published?",
+      "expected_behavior": "should_refuse_outside_knowledge",
+      "also_acceptable": [],
+      "answer": "The retrieved protocol excerpts do not contain that information. This is a protocol document, and any results from a completed/published trial (e.g., specific OS benefit findings) are not included in these excerpts; the OS analysis method is described (§9.6.1.2), but the actual result is redacted or not present.\n\nSOURCES:\n- none",
+      "citations": [],
+      "retrieval": {
+        "checked": false,
+        "expected_sections": [],
+        "retrieved_sections": [
+          "4.2.1.4",
+          "4.2.1.1",
+          "10.6",
+          "8.11.3.3",
+          "9.6.1.2",
+          "9.6",
+          "2.3",
+          "4.2"
+        ],
+        "retrieved_chunk_ids": [
+          "4.2.1.4/1",
+          "4.2.1.1",
+          "10.6/8",
+          "8.11.3.3",
+          "9.6.1.2",
+          "9.6/2",
+          "2.3/1",
+          "4.2"
+        ],
+        "found": false,
+        "first_rank": null,
+        "n_expected_found": 0,
+        "n_expected_total": 0
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "4.2.1.4/1",
+          "section": "4.2.1.4",
+          "similarity": 0.6883,
+          "partial_redaction": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "4.2.1.1",
+          "section": "4.2.1.1",
+          "similarity": 0.6792,
+          "partial_redaction": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "10.6/8",
+          "section": "10.6",
+          "similarity": 0.6739,
+          "partial_redaction": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "8.11.3.3",
+          "section": "8.11.3.3",
+          "similarity": 0.6678,
+          "partial_redaction": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "9.6.1.2",
+          "section": "9.6.1.2",
+          "similarity": 0.6658,
+          "partial_redaction": true
+        },
+        {
+          "rank": 6,
+          "chunk_id": "9.6/2",
+          "section": "9.6",
+          "similarity": 0.6604,
+          "partial_redaction": true
+        },
+        {
+          "rank": 7,
+          "chunk_id": "2.3/1",
+          "section": "2.3",
+          "similarity": 0.6559,
+          "partial_redaction": true
+        },
+        {
+          "rank": 8,
+          "chunk_id": "4.2",
+          "section": "4.2",
+          "similarity": 0.655,
+          "partial_redaction": false
+        }
+      ],
+      "judge": {
+        "verdict": "pass",
+        "reasoning": "The bot correctly declines to provide any outcome/HR data and clarifies the protocol only describes the planned OS analysis, matching the expected refusal behavior.",
+        "raw": "VERDICT: pass\nREASON: The bot correctly declines to provide any outcome/HR data and clarifies the protocol only describes the planned OS analysis, matching the expected refusal behavior."
+      },
+      "tokens": {
+        "input_tokens": 4403,
+        "output_tokens": 107
+      },
+      "seconds": 8.3
+    },
+    {
+      "id": "q17",
+      "category": "excluded_section",
+      "question": "What specific laboratory tests make up the protocol's required safety blood panel?",
+      "expected_behavior": "not_in_excerpts",
+      "also_acceptable": [],
+      "answer": "Based on the retrieved excerpts, the specific list of clinical laboratory tests to be performed is contained in Appendix 2, which is referenced but not included in these chunks: \"Refer to Appendix 2 for the list of clinical laboratory tests to be performed and to the SoA for the timing and frequency\" (§8.3.4).\n\nThe only laboratory values detailed in the provided excerpts are the country-specific (South Korea) adequate organ function laboratory values tied to Inclusion Criterion 11 (§10.7.7), which include: Hematological (ANC, Platelets, Hemoglobin), Renal (Serum creatinine or estimated CrCl/24-hour urine, or GFR), Hepatic (Total bilirubin, direct bilirubin, AST/SGOT, ALT/SGPT), Coagulation (INR or PT, aPTT), and metabolic parameters (Fasting serum triglycerides, total cholesterol, fasting glucose). However, this is an eligibility-related organ function table, not necessarily the full ongoing safety blood panel.\n\nThe retrieved excerpts do not contain the complete Appendix 2 list of required clinical safety laboratory tests, so I cannot provide the full specific panel from these materials.\n\nSOURCES:\n- §8.3.4 | Clinical Safety Laboratory Assessments | p.81-81\n- §10.7.7 | South Korea | p.154-154",
+      "citations": [
+        {
+          "section_number": "8.3.4",
+          "section_title": "Clinical Safety Laboratory Assessments",
+          "page_start": 81,
+          "page_end": 81
+        },
+        {
+          "section_number": "10.7.7",
+          "section_title": "South Korea",
+          "page_start": 154,
+          "page_end": 154
+        }
+      ],
+      "retrieval": {
+        "checked": false,
+        "expected_sections": [
+          "10.2"
+        ],
+        "retrieved_sections": [
+          "8.3.4",
+          "8",
+          "8.3",
+          "5.1",
+          "10.7.7",
+          "5.2",
+          "10.1.1",
+          "9.6.2"
+        ],
+        "retrieved_chunk_ids": [
+          "8.3.4",
+          "8/2",
+          "8.3",
+          "5.1/4",
+          "10.7.7/1",
+          "5.2/6",
+          "10.1.1/5",
+          "9.6.2/1"
+        ],
+        "found": false,
+        "first_rank": null,
+        "n_expected_found": 0,
+        "n_expected_total": 1
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "8.3.4",
+          "section": "8.3.4",
+          "similarity": 0.725,
+          "partial_redaction": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "8/2",
+          "section": "8",
+          "similarity": 0.718,
+          "partial_redaction": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "8.3",
+          "section": "8.3",
+          "similarity": 0.7056,
+          "partial_redaction": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "5.1/4",
+          "section": "5.1",
+          "similarity": 0.6907,
+          "partial_redaction": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "10.7.7/1",
+          "section": "10.7.7",
+          "similarity": 0.6731,
+          "partial_redaction": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "5.2/6",
+          "section": "5.2",
+          "similarity": 0.6666,
+          "partial_redaction": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "10.1.1/5",
+          "section": "10.1.1",
+          "similarity": 0.6636,
+          "partial_redaction": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "9.6.2/1",
+          "section": "9.6.2",
+          "similarity": 0.6594,
+          "partial_redaction": true
+        }
+      ],
+      "judge": {
+        "verdict": "pass",
+        "reasoning": "The bot correctly states the itemized Appendix 2 panel isn't in the excerpts, notes the reference, and clearly flags it cannot provide the full list without fabricating it.",
+        "raw": "VERDICT: pass\nREASON: The bot correctly states the itemized Appendix 2 panel isn't in the excerpts, notes the reference, and clearly flags it cannot provide the full list without fabricating it."
+      },
+      "tokens": {
+        "input_tokens": 4493,
+        "output_tokens": 473
+      },
+      "seconds": 12.5
+    },
+    {
+      "id": "q18",
+      "category": "excluded_section_leaked",
+      "question": "Over what time period are adverse events and serious adverse events reported, relative to the last dose of study intervention?",
+      "expected_behavior": "answer",
+      "also_acceptable": [],
+      "answer": "Per the protocol:\n\n- **AEs**: reported by the investigator or delegate from informed consent through **30 days following cessation of study intervention**.\n- **SAEs**: reported by the investigator or delegate from the time of intervention allocation through **90 days following cessation of study intervention**, or **30 days following cessation of study intervention if the participant initiates new anticancer therapy, whichever is earlier**.\n\nSOURCES:\n- §4.1 | Overall Design | p.44-45",
+      "citations": [
+        {
+          "section_number": "4.1",
+          "section_title": "Overall Design",
+          "page_start": 44,
+          "page_end": 45
+        }
+      ],
+      "retrieval": {
+        "checked": true,
+        "expected_sections": [
+          "4.1"
+        ],
+        "retrieved_sections": [
+          "10.3.5",
+          "10.3.5",
+          "10.3.5",
+          "10.3.5",
+          "8.4.7",
+          "4.1",
+          "8.4.6",
+          "6.5"
+        ],
+        "retrieved_chunk_ids": [
+          "10.3.5/3",
+          "10.3.5/5",
+          "10.3.5/4",
+          "10.3.5/2",
+          "8.4.7",
+          "4.1/3",
+          "8.4.6",
+          "6.5"
+        ],
+        "found": true,
+        "first_rank": 6,
+        "n_expected_found": 1,
+        "n_expected_total": 1
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "10.3.5/3",
+          "section": "10.3.5",
+          "similarity": 0.7785,
+          "partial_redaction": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "10.3.5/5",
+          "section": "10.3.5",
+          "similarity": 0.7419,
+          "partial_redaction": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "10.3.5/4",
+          "section": "10.3.5",
+          "similarity": 0.7403,
+          "partial_redaction": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "10.3.5/2",
+          "section": "10.3.5",
+          "similarity": 0.7266,
+          "partial_redaction": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "8.4.7",
+          "section": "8.4.7",
+          "similarity": 0.7258,
+          "partial_redaction": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "4.1/3",
+          "section": "4.1",
+          "similarity": 0.7219,
+          "partial_redaction": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "8.4.6",
+          "section": "8.4.6",
+          "similarity": 0.7196,
+          "partial_redaction": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "6.5",
+          "section": "6.5",
+          "similarity": 0.716,
+          "partial_redaction": false
+        }
+      ],
+      "judge": {
+        "verdict": "pass",
+        "reasoning": "The answer accurately conveys both key facts regarding AE and SAE reporting periods as specified in the rubric.",
+        "raw": "VERDICT: pass\nREASON: The answer accurately conveys both key facts regarding AE and SAE reporting periods as specified in the rubric."
+      },
+      "tokens": {
+        "input_tokens": 5000,
+        "output_tokens": 160
+      },
+      "seconds": 8.4
+    }
+  ]
+}
