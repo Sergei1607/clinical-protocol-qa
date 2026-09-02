@@ -113,10 +113,12 @@ Frontend and the FastAPI app itself come later — too early now.
    enumerated items" completeness nudge in rag.py): **18/18 pass, no regressions**,
    ~+22% output tokens (concentrated on q13, which now dumps the full IMDC
    definition). Kept.
-5. **Frontend** — chat UI (reuse Project 2 pattern): question box, answer view,
-   visible citation, link/expand to the cited chunk. ← *current step*
-6. **Deploy** — Render (backend) + Vercel (frontend); verify the *live* app
-   works, not just that the deploy succeeded. Note Supabase pause behavior.
+5. **Frontend** — React + Vite + Tailwind chat UI: question box, answer (markdown),
+   collapsible Sources block showing the actual retrieved excerpt per citation,
+   [REDACTED] surfaced as a badge. ✅ done (`frontend/`)
+6. **Deploy** — Render (backend) + Vercel (frontend, root = `frontend/`); verify
+   the *live* app works, not just that the deploy succeeded. Note Supabase pause
+   behavior. ← *current step*
 7. **README** — what it does, stack, live link, RAG design notes, what I'd
    improve next.
 
@@ -158,6 +160,11 @@ requirements.txt) — no GPU locally or on Render.
   Opus because of the zero-budget constraint; grounded extraction is in range.
   ~$0.01-0.015/question. Citation format Claude must emit: `SOURCES:` then one
   `- §<num> | <title> | p.<start>-<end>` line per section actually used.
+- `/ask` response: `answer` (raw, w/ SOURCES block — used by eval), `answer_text`
+  (display, SOURCES stripped), `sources` (per cited section: metadata +
+  `excerpt_text` = the actual retrieved chunk text, breadcrumb stripped, sub-
+  chunks joined — this is the frontend's proof-of-grounding), `citations`,
+  `retrieved`, `usage`.
 
 DB access: `backend/.env` (gitignored) holds `SUPABASE_OWNER_URL` (local only,
 DDL + writes), `SUPABASE_READONLY_URL` (`app_readonly`, the API path), and
@@ -178,13 +185,25 @@ DDL + writes), `SUPABASE_READONLY_URL` (`app_readonly`, the API path), and
     IMDC risk-factor definition (accurate, but more than asked). Net-positive, so
     kept. If frontend UX shows verbosity is a problem, rebalance rules 4 vs 5.
 
-Decisions locked in: §11 excluded; 6.1/6.6.1/8.4.1/10.2/9.3 stay excluded (no
-salvage); 1.1 + 3 recovered via pdfplumber and back in the corpus. Eval failures
-NOT yet acted on — review together before changing chunking/retrieval/prompt.
+- `frontend/` — React 19 + Vite + Tailwind v4. `src/api.ts` (typed `ask()`,
+  `VITE_API_URL`), `App.tsx` (client-side transcript, suggestions on empty
+  state), `components/`: `Message`, `AnswerText` (react-markdown + remark-gfm),
+  `Sources` (collapsed by default; expand shows each cited section's
+  `excerpt_text` in a bordered monospace quote), `Excerpt` (splits on the
+  redaction marker → amber badge). `scripts/screenshot.mjs` = puppeteer-core
+  dev helper (points at local Chrome). `npm run dev` → :5173; `npm run build`
+  passes. Verified locally against the running backend: normal Q&A, a redacted
+  section (badge shows), and an outside-knowledge refusal (no Sources block).
 
-**Next: React frontend.** Grounding/honesty is solid across the 18-Q eval
-(redaction → "redacted"; excluded SoA/Appendix-2 → "not in the excerpts, here's
-what is"; outside-knowledge → refuse; retrieval miss → "can't answer from these").
-Known: retrieval is phrasing-sensitive — specific wording finds the exclusion
-criterion, vague wording doesn't, but the bot says so. Candidate fixes for later:
-bge-base, sibling-sub-chunk fetch, hybrid keyword search.
+Decisions locked in: §11 excluded; 6.1/6.6.1/8.4.1/10.2/9.3 stay excluded (no
+salvage); 1.1 + 3 recovered via pdfplumber and back in the corpus. Eval "failures"
+(q12 fixed in v2; q10 accepted limitation) — nothing else outstanding.
+
+**Next: deploy.** Backend → Render (root `backend/`, env: `SUPABASE_READONLY_URL`
++ `ANTHROPIC_API_KEY`; free tier ~15min cold start + ~130MB bge download on boot).
+Frontend → Vercel (root `frontend/`, env: `VITE_API_URL` = Render URL). Supabase
+already has 219 rows; pauses after ~1wk idle. Then verify the *live* app, README.
+
+Known retrieval limitation (documented, not blocking): phrasing-sensitive —
+specific wording finds the exclusion criterion, vague wording doesn't; the bot
+says so. Later options: bge-base, sibling-sub-chunk fetch, hybrid keyword search.

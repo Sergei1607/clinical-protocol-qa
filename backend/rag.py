@@ -23,6 +23,7 @@ import db
 
 EMBED_MODEL = "BAAI/bge-small-en-v1.5"
 QUERY_INSTRUCTION = "Represent this sentence for searching relevant passages: "
+REDACTION_MARKER = "[REDACTED: commercially confidential information]"  # from build_chunks.py
 
 # Grounded extraction is well within Sonnet 5's range and the project has a hard
 # "zero budget beyond tokens" constraint, so default to Sonnet, not Opus.
@@ -143,6 +144,46 @@ def _client() -> anthropic.Anthropic:
     return anthropic.Anthropic()      # reads ANTHROPIC_API_KEY from env / .env
 
 
+def _strip_breadcrumb(text: str) -> str:
+    """Drop the leading '<breadcrumb> [i/n]' header line that build_chunks.py
+    prepends - the Sources UI already shows section/title/page separately."""
+    parts = text.split("\n\n", 1)
+    if len(parts) == 2 and (" > " in parts[0] or parts[0].lstrip().startswith("§")
+                            or re.match(r"^\d+(\.\d+)*\s", parts[0].strip())):
+        return parts[1].strip()
+    return text.strip()
+
+
+def build_sources(citations: list[dict], chunks: list[dict]) -> list[dict]:
+    """For each section Claude cited, attach the actual retrieved excerpt text.
+
+    A cited section may map to several retrieved sub-chunks (e.g. 5.2/2 + 5.2/3);
+    include all of them, in retrieval order. If a citation matches nothing that
+    was retrieved (shouldn't happen given the system prompt), keep the metadata
+    and flag it rather than dropping or erroring.
+    """
+    by_section: dict[str, list[dict]] = {}
+    for c in chunks:
+        by_section.setdefault(c["section_number"], []).append(c)
+
+    sources = []
+    for cit in citations:
+        matched = by_section.get(cit["section_number"], [])
+        excerpt = "\n\n———\n\n".join(_strip_breadcrumb(c["text"]) for c in matched)
+        sources.append({
+            "section_number": cit["section_number"],
+            "section_title": cit["section_title"],
+            "page_start": cit["page_start"],
+            "page_end": cit["page_end"],
+            "excerpt_text": excerpt or None,
+            "is_partial_redaction": any(c["is_partial_redaction"] for c in matched),
+            "contains_redaction_marker": REDACTION_MARKER in excerpt,
+            "matched_retrieved_chunks": [c["chunk_id"] for c in matched],
+            "unmatched": not matched,
+        })
+    return sources
+
+
 def answer_question(question: str, k: int = DEFAULT_K) -> dict:
     chunks = search(question, k)
     user_msg = (
@@ -156,11 +197,18 @@ def answer_question(question: str, k: int = DEFAULT_K) -> dict:
         messages=[{"role": "user", "content": user_msg}],
     )
     answer = next((b.text for b in resp.content if b.type == "text"), "").strip()
+    citations = parse_sources(answer)
+    # answer     = raw model output incl. the SOURCES: block (used by eval / tests)
+    # answer_text = display version: SOURCES: block stripped, since the structured
+    #              `sources` list below carries it for the UI
+    answer_text = re.split(r"\n+SOURCES:\s*", answer, maxsplit=1)[0].rstrip()
 
     return {
         "question": question,
         "answer": answer,
-        "citations": parse_sources(answer),
+        "answer_text": answer_text,
+        "citations": citations,
+        "sources": build_sources(citations, chunks),
         "model": resp.model,
         "stop_reason": resp.stop_reason,
         "usage": {
