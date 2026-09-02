@@ -1,25 +1,25 @@
-# torch must come from the CPU wheel index: there is no GPU on this machine or on
-# Render's free tier, and the default CUDA build would add ~1 GB for nothing.
-# The "+cpu" local version only exists on this index, so the pin is unambiguous.
---extra-index-url https://download.pytorch.org/whl/cpu
-
 # ---- runtime: the deployed FastAPI backend ----
 fastapi==0.141.1
 uvicorn[standard]==0.52.4
 anthropic==1.3.0              # Claude Messages API for grounded answer generation
-torch==2.14.0+cpu
-sentence-transformers==6.0.1   # BAAI/bge-small-en-v1.5, 384-dim, CPU
 psycopg[binary]==3.3.5         # Postgres driver for the pgvector query
 pgvector==0.5.0                # vector type adapter for psycopg
 python-dotenv==1.2.3           # load DB connection strings / API key from .env
+
+# ---- query-time embeddings: BAAI/bge-small-en-v1.5 via ONNX Runtime ----
+# torch + sentence-transformers OOM'd Render's 512 MB free tier (torch alone is
+# ~200 MB resident). embed_onnx.py runs the same model on onnxruntime with a
+# hand-rolled tokenize -> CLS-pool -> L2-normalize path: numerically identical
+# output, no torch. The ONNX graph + tokenizer download from the BAAI repo
+# (which ships onnx/model.onnx) and are cached by huggingface-hub.
+onnxruntime==1.29.0
+tokenizers==0.23.1
+huggingface-hub==1.29.0
 numpy==2.5.2
 
 # ---- data pipeline (steps 1-3): PDF -> text -> sections -> chunks ----
+# Not imported by the web service; only the local pipeline scripts use these.
 pymupdf==1.28.2                # fast full-text extraction (download_and_extract, parse_sections)
 requests==2.32.3              # download the source PDF from clinicaltrials.gov
 pdfplumber==0.11.10           # scoped table recovery for Synopsis + Section 3 (recover_tables)
 pdfminer.six==20260107        # pdfplumber dep, pinned (older releases break on Python 3.12)
-
-# ---- added in later steps ----
-# fastapi, uvicorn   (step 4: API)
-# anthropic          (step 4: Claude API answer generation)

@@ -21,8 +21,9 @@ Flag it explicitly if something would cost money — don't assume it's fine.
   spin-down / cold start on free instances, same as Projects 1 & 2).
 - **Frontend:** React + Vite + Tailwind CSS — deploy target: Vercel (free Hobby
   tier). Reuses the chat UI pattern from Project 2.
-- **Embeddings:** `sentence-transformers` running locally on CPU — no API key,
-  no cost. (Model choice TBD; likely `all-MiniLM-L6-v2` or `BAAI/bge-small-en`.)
+- **Embeddings:** `BAAI/bge-small-en-v1.5` (384-dim) run on **ONNX Runtime** —
+  no API key, no cost, no torch. See `backend/embed_onnx.py` and the embedding
+  notes below. (Was torch + sentence-transformers; swapped after it OOM'd Render.)
 - **Vector store:** Supabase (hosted Postgres + `pgvector` extension), free
   tier. Caveat: free Supabase projects **pause after ~1 week of inactivity** and
   need a manual resume from the dashboard — expect this when returning to the
@@ -143,13 +144,25 @@ Pipeline (all in `backend/`, run in order):
 - `setup_supabase.py` → `protocol_chunks` table (pgvector, HNSW cosine index) in
   the Project 2 Supabase project; `app_readonly` granted SELECT on it.
 - `load_embeddings.py` → embeds all 219 chunks with **BAAI/bge-small-en-v1.5**
-  (384-dim, CPU, ~8s to embed + ~7s to upsert) and idempotently upserts rows.
+  (384-dim) via the ONNX path (`embed_onnx.py`) and idempotently upserts rows.
 - `test_retrieval.py` → 6 hand questions, cosine query via `app_readonly`.
 
 bge convention: query text is prefixed with
 `"Represent this sentence for searching relevant passages: "`; **chunk/passage
-text is not**. Torch is CPU-only (`torch==2.14.0+cpu`, `--extra-index-url` in
-requirements.txt) — no GPU locally or on Render.
+text is not**.
+
+**Embedding runtime = ONNX, not torch** (`backend/embed_onnx.py`). torch +
+sentence-transformers OOM'd Render's 512 MB free tier (`import sentence_transformers`
+loads torch unconditionally, ~200 MB resident — even with `backend="onnx"`).
+`embed_onnx.py` runs the same model on `onnxruntime` + `tokenizers` with a
+hand-rolled tokenize → CLS-pool → L2-normalize path. Output is numerically
+identical to the torch path (cosine 1.000000, max abs Δ 0.0 on sample texts);
+the eval set is byte-identical (same 18/18 pass, same top-8 chunk ids per Q).
+Both query-side (`rag.py`) and chunk-side (`load_embeddings.py`) go through it,
+so all vectors in `protocol_chunks` were re-embedded through ONNX (2026-09-02).
+The ONNX graph + tokenizer download from the BAAI repo (`onnx/model.onnx`,
+~133 MB) and are cached by huggingface-hub. Local footprint after warm+encode:
+~270 MB RSS (Windows), well under 512 MB. Single-query embed latency ~8-10 ms.
 
 - `rag.py` -> `answer_question(q, k=8)`: embed query -> pgvector top-k via
   `app_readonly` -> **one** `client.messages.create` (no tool loop) -> parse the
@@ -199,11 +212,14 @@ Decisions locked in: §11 excluded; 6.1/6.6.1/8.4.1/10.2/9.3 stay excluded (no
 salvage); 1.1 + 3 recovered via pdfplumber and back in the corpus. Eval "failures"
 (q12 fixed in v2; q10 accepted limitation) — nothing else outstanding.
 
-**Next: deploy.** Deploy config was sanity-checked and made deploy-ready
-(commit after `913da5e`): CORS reads `ALLOWED_ORIGIN` (comma-sep, default `*`),
-`main.py` has a `__main__` block honouring `$PORT`, `backend/runtime.txt` pins
-Python 3.12.10, `.env.example` files split PROD vs LOCAL-ONLY vars (owner URL is
-local-only, commented out).
+**Next: deploy (redeploy).** First Render deploy OOM'd on the torch build →
+swapped the embedding runtime to ONNX (see embedding notes above); user will
+re-trigger the Render deploy. Deploy config is ready: CORS reads `ALLOWED_ORIGIN`
+(comma-sep, default `*`), `main.py` has a `__main__` block honouring `$PORT`,
+`backend/runtime.txt` pins Python 3.12.10, `requirements.txt` has no torch /
+sentence-transformers / `--extra-index-url` (onnxruntime + tokenizers +
+huggingface-hub instead), `.env.example` files split PROD vs LOCAL-ONLY vars
+(owner URL local-only, commented out).
 
 Render (backend) — manual dashboard deploy:
   - Root Directory:  `backend`
@@ -211,8 +227,9 @@ Render (backend) — manual dashboard deploy:
   - Start Command:   `python main.py`
   - Environment:     `SUPABASE_READONLY_URL`, `ANTHROPIC_API_KEY`
                      (later: `ALLOWED_ORIGIN` = the Vercel URL, no trailing slash)
-  - Free tier: ~15 min cold start + ~130 MB bge model download on first boot;
-    runtime RAM is tight (torch CPU + MiniLM/bge) but has run fine at this scale.
+  - Free tier: ~15 min cold start + ~133 MB ONNX model download on first boot
+    (cache doesn't survive spin-down). RAM after warm ~270 MB locally — the
+    torch build OOM'd at 512 MB, this leaves headroom. Re-check live.
 
 Vercel (frontend) — root `frontend/`, env `VITE_API_URL` = the Render URL
 (inlined at build time — set it before the build). Supabase already has 219 rows;

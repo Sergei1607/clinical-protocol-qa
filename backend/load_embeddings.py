@@ -6,6 +6,9 @@ bge-small-en-v1.5 convention: the "Represent this sentence for searching relevan
 passages: " instruction is prepended to QUERIES only, never to passages. So the
 chunk text here is embedded verbatim. (See test_retrieval.py for the query side.)
 
+Embeds through backend/embed_onnx.py (onnxruntime, no torch) - the exact same
+path rag.py uses at query time, so chunk and query vectors come from one runtime.
+
 Idempotent: upsert keyed on chunk_id, so re-running after chunks.json changes
 just refreshes rows (and deletes chunk_ids that no longer exist).
 
@@ -18,12 +21,12 @@ import json
 import time
 from pathlib import Path
 
-from sentence_transformers import SentenceTransformer
+import embed_onnx
 
 import db
 
 CHUNKS_JSON = Path(__file__).resolve().parent.parent / "data" / "extracted" / "chunks.json"
-MODEL_NAME = "BAAI/bge-small-en-v1.5"
+MODEL_NAME = "BAAI/bge-small-en-v1.5 (onnx)"
 
 COLUMNS = [
     "chunk_id", "section_number", "section_title", "breadcrumb",
@@ -44,15 +47,13 @@ def main() -> int:
     print(f"{len(chunks)} chunks from {CHUNKS_JSON.name}")
 
     t0 = time.perf_counter()
-    model = SentenceTransformer(MODEL_NAME)
+    embed_onnx.warm()
     print(f"loaded {MODEL_NAME} in {time.perf_counter() - t0:.1f}s")
 
     t0 = time.perf_counter()
-    embeddings = model.encode(
+    embeddings = embed_onnx.encode(
         [c["text"] for c in chunks],          # passages: NO instruction prefix
-        normalize_embeddings=True,
         batch_size=32,
-        show_progress_bar=True,
     )
     embed_s = time.perf_counter() - t0
     print(f"embedded {len(chunks)} chunks in {embed_s:.1f}s "

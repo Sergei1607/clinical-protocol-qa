@@ -17,11 +17,12 @@ import os
 import re
 
 import anthropic
-from sentence_transformers import SentenceTransformer
 
 import db
+import embed_onnx
 
 EMBED_MODEL = "BAAI/bge-small-en-v1.5"
+EMBED_BACKEND = "onnxruntime"   # torch/sentence-transformers OOM'd Render's 512 MB free tier
 QUERY_INSTRUCTION = "Represent this sentence for searching relevant passages: "
 REDACTION_MARKER = "[REDACTED: commercially confidential information]"  # from build_chunks.py
 
@@ -76,20 +77,14 @@ _SOURCE_LINE = re.compile(
 )
 
 
-@functools.lru_cache(maxsize=1)
-def _model() -> SentenceTransformer:
-    return SentenceTransformer(EMBED_MODEL)
-
-
 def warm() -> None:
     """Load the embedding model now (call from FastAPI startup)."""
-    _model()
+    embed_onnx.warm()
 
 
 def embed_query(question: str) -> list[float]:
-    return _model().encode(
-        QUERY_INSTRUCTION + question, normalize_embeddings=True
-    ).tolist()
+    # bge convention: the query instruction is prepended to queries only.
+    return embed_onnx.encode(QUERY_INSTRUCTION + question).tolist()
 
 
 SEARCH_SQL = """

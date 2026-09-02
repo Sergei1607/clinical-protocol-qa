@@ -53,7 +53,12 @@ class AskRequest(BaseModel):
 
 @app.get("/health")
 def health() -> dict:
-    return {"status": "ok", "model": rag.ANSWER_MODEL, "embed_model": rag.EMBED_MODEL}
+    return {
+        "status": "ok",
+        "model": rag.ANSWER_MODEL,
+        "embed_model": rag.EMBED_MODEL,
+        "embed_backend": rag.EMBED_BACKEND,
+    }
 
 
 @app.post("/ask")

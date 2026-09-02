@@ -13,11 +13,10 @@ from __future__ import annotations
 
 import textwrap
 
-from sentence_transformers import SentenceTransformer
+import embed_onnx
 
 import db
 
-MODEL_NAME = "BAAI/bge-small-en-v1.5"
 QUERY_INSTRUCTION = "Represent this sentence for searching relevant passages: "
 
 # deliberately varied: a summary-table question (needs the recovered Synopsis/§3),
@@ -45,7 +44,7 @@ limit %(k)s
 
 
 def main() -> int:
-    model = SentenceTransformer(MODEL_NAME)
+    embed_onnx.warm()
 
     with db.connect(db.readonly_url()) as conn:
         # prove we are actually read-only
@@ -53,7 +52,7 @@ def main() -> int:
         print(f"connected as: {who}\n")
 
         for i, q in enumerate(QUESTIONS, 1):
-            qv = model.encode(QUERY_INSTRUCTION + q, normalize_embeddings=True).tolist()
+            qv = embed_onnx.encode(QUERY_INSTRUCTION + q).tolist()
             rows = conn.execute(SQL, {"q": qv, "k": TOPK}).fetchall()
             print("=" * 100)
             print(f"Q{i}. {q}")
